@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>স্বস্তীপালী দশকর্মা ভাণ্ডার</title>
+  <style>
+    body {margin:0; background:linear-gradient(120deg,#dbeafe 0%,#e6f7ff 100%);}
+    .main-wrap {max-width:670px; margin:0 auto; min-height:95vh; display:flex; flex-direction:column; justify-content:center; align-items:center;}
+    .big-title {font-size:2.05em; color:#2165aa; font-weight:700; margin:36px 0 6px 0; text-align:center; text-shadow:0 2px 21px #bae6fd53;}
+    .desc-box {font-size:1.11em; color:#26509b; font-weight:500; background:#e6effd; border-radius:15px; padding:14px 14px; margin-bottom:24px; text-align:center; box-shadow:0 2px 15px #dbeafe42;}
+    .jan-off {font-size:1.01em;color:#26496d;margin-bottom:12px; background:#f5f8ff; border-radius:13px; padding:13px 10px; box-shadow:0 2px 9px #bae6fd2a;}
+    .main-btn {background:linear-gradient(90deg,#bae6fd,#e1eeff); color:#1852b9; font-weight:700; border:none; border-radius:22px; padding:15px 38px; font-size:1.16rem; margin:28px auto 8px auto; box-shadow:0 4px 16px #2467bd2d; cursor:pointer;}
+    .main-btn:hover {background:#8acafe;}
+    .contact-title {color:#1652b9; font-size:1.08em; margin:22px 0 5px 0; font-weight:700;}
+    .contact-btn {background:#25d366;color:#fff;font-weight:700;border:none;border-radius:20px;padding:13px 35px;font-size:1.08em;box-shadow:0 2px 9px #bae6fd;cursor:pointer;margin:6px auto 6px auto;display:block;}
+    .contact-btn.call {background:#4367f5;}
+    .contact-btn:hover {filter:brightness(.94);}
+    .map-btn {background:#1852b9; color:#fff; font-weight:700; border:none; border-radius:21px; font-size:1.07em; padding:12px 32px; box-shadow:0 2px 11px #bae6fd; margin:12px auto 12px auto;}
+    
+    /* FAQ Section */
+    .faq-wrap {max-width:650px;margin:37px auto 25px auto; padding:17px 14px 17px 14px; background:#ebf7ff; border-radius:17px; box-shadow:0 2px 22px #bae6fd1c;}
+    .faq-title {font-size:1.17em;color:#1855ba;font-weight:700;text-align:center;margin-bottom:17px;letter-spacing:1px;}
+    .faq-q {margin-bottom:8px;background:#eaf3ff;font-weight:600;padding:13px 15px;border-radius:13px;cursor:pointer;outline:none;border:none;box-shadow:0 2px 11px #bde0fe18;transition:.15s;font-size:1.05em;color:#2263a9;position:relative;}
+    .faq-q::after {content:"+"; position:absolute; right:14px; font-weight:800; font-size:1.25em; transition:.15s;}
+    .faq-q.active {background:#97c3f9;color:#1e4877;}
+    .faq-q.active::after {content:"−"; color:#f13832;}
+    .faq-a {display:none;background:#fff;border-radius:10px;padding:12px 13px; color:#25607c;font-size:1em; margin-top:-6px;margin-bottom:14px;box-shadow:0 2px 8px #bde0fe26;animation:faqopen .23s;}
+    @keyframes faqopen {from{opacity:0;transform:scaleY(.7);}to{opacity:1;transform:scaleY(1);}}
+    @media screen and (max-width:600px){.faq-wrap{padding:8px 3px 14px 3px;}.faq-q{padding:11px 9px;font-size:.99em;}}
+    .animated-title {
+  font-size:2.35em; font-weight:900; text-align:center; color:#1c5aa4;
+  background:linear-gradient(87deg,#dbeafe 45%,#ffd6d6 80%,#bae6fd 100%);
+  border-radius:22px; margin:38px 0 17px 0; padding:18px 11px;
+  text-shadow:0 3px 26px #bae6fd69,0 1px 1px #fff,0 0px 18px #bde0fd55;
+  box-shadow:0 2px 17px #bde0fd29;
+  animation:popTitle .93s cubic-bezier(.19,.9,.36,1.3);
+  position:relative;      overflow:hidden;
+}
+@keyframes popTitle {
+  0% {opacity:0;transform:scale(.86) translateY(-33px);}
+  40%{opacity:.5;}
+  85%{opacity:1;transform:scale(1.07);}
+  100%{opacity:1;transform:scale(1) translateY(0);}
+}
+.animated-title::after {
+  content:"✨"; position:absolute; right:18px; top:50%; transform:translateY(-50%);
+  font-size:1.14em; color:#7ad7eb;
+  animation:sparkle .95s infinite alternate;
+}
+@keyframes sparkle {0%{opacity:.5;}100%{opacity:1;color:#ffc6c6;}}
+.festival-bar {display:flex; align-items:center; justify-content:center; gap:13px;
+  background:linear-gradient(94deg,#fff3ef 60%,#e7f6ff 100%);
+  border-radius:15px; font-size:1.17em; font-weight:700; color:#b93141;
+  box-shadow:0 2px 9px #fbbcbc33; margin:0 auto 17px auto; padding:11px 10px 11px 9px;
+  animation:slideFest .97s cubic-bezier(.67,1,.29,.98); max-width:97%; position:relative;}
+.festival-emoji {font-size:1.45em; animation:festPulse .98s infinite alternate;}
+@keyframes festPulse {0%{transform:scale(1);}100%{transform:scale(1.18);filter:drop-shadow(0 0 2px #ffe0e0);}}
+.festival-date {color:#2073be; background:#e5f7ff; padding:3px 10px; border-radius:8px; font-size:.97em; font-weight:600; animation:dateFlash .91s;}
+@keyframes dateFlash {0%{opacity:0;}100%{opacity:1;}}
+@keyframes slideFest {from{opacity:0;transform:translateY(-30px);}to{opacity:1;transform:translateY(0);}}
+.main-btn.button-anim {
+  background: linear-gradient(90deg, #bae6fd, #e1eeff);
+  color: #1852b9;
+  font-weight: 700;
+  border: none;
+  border-radius: 22px;
+  padding: 15px 38px;
+  font-size: 1.16rem;
+  margin: 28px auto 8px auto;
+  box-shadow: 0 4px 16px #2467bd2d;
+  cursor: pointer;
+  transition: transform .16s cubic-bezier(.49,.97,.29,1.6), box-shadow .13s;
+}
+.main-btn.button-anim:hover {
+  filter: brightness(0.97);
+  box-shadow: 0 2px 17px #bae6fd97;
+}
+.main-btn.button-anim:active {
+  transform: scale(1.07);
+  box-shadow: 0 4px 24px #bde0fe68;
+  animation: btnBounce .25s cubic-bezier(.57,1.36,.45,1.39) 1;
+}
+@keyframes btnBounce {
+  0% { transform: scale(1);}
+  50% { transform: scale(1.18);}
+  80% { transform: scale(0.96);}
+  100% { transform: scale(1.07);}
+}
+.ind-banner {
+  background: linear-gradient(135deg, #fffbe7 70%, #d3f9ff 100%);
+  border-radius: 17px;
+  max-width: 420px;
+  margin: 22px auto 25px auto;
+  padding: 23px 18px 17px 18px;
+  box-shadow: 0 2px 20px #e3b34d28, 0 2px 9px #a4e2ff41;
+  animation: indBannerAnim 1.15s cubic-bezier(.32,1.13,.53,1.02);
+  position: relative;
+  overflow: hidden;
+}
+@keyframes indBannerAnim {
+  0% { opacity: 0; transform: scale(.83) translateY(-25px);}
+  74% { box-shadow: 0 2px 26px #1aa2df43;}
+  100% { opacity: 1; transform: scale(1) translateY(0);}
+}
+.ind-remind-title {
+  font-size: 1.24em;
+  font-weight: 800;
+  color: #d2691e;
+  text-align: center;
+  letter-spacing: .7px;
+  margin-bottom: 13px;
+  animation: indTitleFade .9s;
+}
+@keyframes indTitleFade {
+  0% {opacity:0;transform:scale(.92);}
+  100% {opacity:1;transform:scale(1);}
+}
+.ind-timer {
+  font-size: 1.23em;
+  font-weight: 700;
+  color: #1565c0;
+  text-align: center;
+  margin-bottom: 9px;
+  letter-spacing: .7px;
+  background: #fffbe4;
+  border-radius: 10px;
+  padding: 8px 0;
+  box-shadow: 0 1px 10px #d7e4ff35;
+  animation: timerPulse 1.2s;
+}
+@keyframes timerPulse {
+  0% {transform:scale(.98);background:#ffebc2;}
+  65% {background:#c7eaff;}
+  100% {transform:scale(1);}
+}
+.ind-note {
+  font-size: 1.11em;
+  font-weight: 600;
+  color: #c2392d;
+  text-align: center;
+  margin-top: 7px;
+  background: #fbeee5;
+  border-radius: 8px;
+  padding: 7px;
+  animation: notePop .8s;
+}
+@keyframes notePop {
+  0% {opacity:0;transform:scale(.95);}
+  100% {opacity:1;transform:scale(1);}
+}
+  </style>
+</head>
+<body>
+  
+  <div class="main-wrap">
+    <div class="animated-title">
+  স্বস্তীপালী দশকর্মা ভাণ্ডার
+</div>
+<!-- Flag লেখায় ক্লিক দিলে Gallery খুলবে -->
+<script>
+function openFlagGallery() {
+  document.getElementById('flagGalleryModal').style.display = 'flex';
+}
+function closeFlagGallery() {
+  document.getElementById('flagGalleryModal').style.display = 'none';
+}
+</script>
+<div id="flagGalleryModal" class="flag-modal" style="display:none;">
+  <div class="flag-modal-content">
+    <!-- Top-left: Back -->
+    <button class="flag-btn flag-back-btn" onclick="goBackFlag()" title="Back">&#8592; Back</button>
+  
+    <!-- Top-center/right: Switch -->
+    <h3 style="color:#2177c9;">বিভিন্ন পতাকা</h3>
+    <div class="flag-images-grid" id="flagImagesGrid">
+      <img src="images/flag1.jpg" alt="Flag 1">
+      <img src="images/flag2.jpg" alt="Flag 2">
+      <img src="images/flag3.jpg" alt="Flag 3">
+        <img src="images/flag4.jpg" alt="Flag 4">
+         <img src="images/flag5.jpg" alt="Flag 5">
+      <!-- আরও পতাকা ... -->
+    </div>
+    <div class="flag-note">
+      এছাড়াও বিভিন্ন সাইজের পতাকা, ব্যাজ ইত্যাদি পাবেন।
+    </div>
+  </div>
+</div>
+
+<div class="flag-section">
+  <button class="flag-trigger" onclick="openFlagGallery()">🇮🇳 পতাকা ছবি দেখুন</button>
+</div>
+
+<!-- Pop-up Modal/Flag Gallery -->
+<div id="flagGalleryModal" class="flag-modal" style="display:none;">
+  <div class="flag-modal-content">
+    <span class="close-flag-modal" onclick="closeFlagGallery()">&times;</span>
+    <h3 style="color:#2177c9;">বিভিন্ন পতাকা</h3>
+    <div class="flag-images-grid">
+      <img src="images/flag1.jpg" alt="Flag 1">
+      <img src="images/flag2.jpg" alt="Flag 2">
+      <img src="images/flag3.jpg" alt="Flag 3">
+      <!-- আরও পতাকা / ব্যাজ ... -->
+    </div>
+    <div class="flag-note">
+      এছাড়াও বিভিন্ন সাইজের পতাকা, ব্যাজ ইত্যাদি পাবেন।
+    </div>
+  </div>
+</div>
+
+<div class="ind-banner">
+  <div class="ind-remind-title">🇮🇳 স্বাধীনতা দিবস </div>
+  <div class="ind-timer"><span id="indDays"></span> দিন <span id="indHours"></span> ঘন্টা <span id="indMins"></span> মিনিট <span id="indSecs"></span> সেকেন্ড বাকি!</div>
+  <div class="ind-note">স্বাধীনতা দিবস উপলক্ষে বিভিন্ন সাইজের—  পতাকা আমাদের কাছে পাওয়া যায়!</div>
+</div>
+    <div class="desc-box">
+      সকল পূজার দশকর্মা সামগ্রী, মহোৎসব, বিবাহ, অন্নপ্রাশন, শ্রাদ্ধ এবং প্রতিমার সাজসজ্জা, কাপড়, রঙ, তুলি ইত্যাদি ন্যায্য মূল্যে পাইকারী ও খুচরা বিক্রয়ের বিশ্বস্ত প্রতিষ্ঠান।
+    </div>
+    <div class="festival-bar">
+  <span class="festival-emoji"></span>
+  <span class="festival-head">জন্মাষ্টমী &mdash;</span>
+  <span class="festival-date">১৬ আগস্ট ২০২৫</span>
+</div>
+    <button class="main-btn button-anim" onclick="window.location.href='catalogue.html'">
+  🖼️ ক্যাটালগ দেখুন
+</button>
+    <button class="map-btn" onclick="window.open('https://maps.app.goo.gl/Gk8oAPdFFKYXCLrg6','_blank')">🗺 দোকানের ম্যাপ</button>
+    <div class="contact-title">যোগাযোগ করুন</div>
+    <button class="contact-btn" onclick="window.open('https://wa.me/9547486999','_blank')">WhatsApp মেসেজ</button>
+    <button class="contact-btn call" onclick="window.open('tel:+919547486999','_blank')">কল করুন</button>
+  </div>
+ 
+   <button onclick="window.location.href='chatbot.html';" 
+  style="
+    position: fixed; right: 21px; bottom: 24px; z-index: 999;
+    background: rgba(255,255,255,0.2); /* transparent effect */
+    border: 1.5px solid #aad4ff;
+    border-radius: 60px;
+    color: #2177c9; 
+    font-weight:600;
+    font-size:1.11em;
+    padding: 8px 17px 8px 14px;
+    box-shadow: 0 2px 16px #d3f4fa38;
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+    transition: background .13s, transform .15s, border .15s;
+    opacity: 0.92;
+  "
+  onmouseover="this.style.background='rgba(255,255,255,0.38)';this.style.transform='scale(1.07)'"
+  onmouseout="this.style.background='rgba(255,255,255,0.2)';this.style.transform='scale(1)'"
+>
+  🤖 Chatbot
+</button>
+
+
+</a>
+
+    <!-- FAQ items JS-এ auto add হবে --><script>
+// Chatbot modal open/close
+function openShopBot() {
+  document.getElementById('shopChatModal').style.display = 'flex';
+}
+function closeShopBot() {
+  document.getElementById('shopChatModal').style.display = 'none';
+}
+
+
+  </div>
+  <!-- Floating Chatbot Widget/Button -->
+
+
+<!-- Chatbot Modal/Panel -->
+<div id="shopChatModal" class="chatbot-modal">
+  <div class="chatbot-window">
+    <div class="chatbot-header">
+      <span class="cbot-avatar-lg"></span>
+      <span>দোকান সহকারী • Chatbot</span>
+      <button class="chatbot-close" onclick="closeShopBot()">&times;</button>
+    </div>
+    <div class="chatbot-body" id="shopBotBody">
+      <div class="cbot-msg-bot animate-bot">👋 স্বাগত আমি চ্যাট অ্যাসিস্টেন্ট কী জানতে চান?</div>
+      <!-- dynamic message/FAQ/partwise info এখানে আসবে -->
+    </div>
+    <div class="chatbot-footer">
+      <!-- Quick options/buttons -->
+      <button onclick="askShopBot('product')">🛒 পণ্য</button>
+      <button onclick="askShopBot('payment')">💳 পেমেন্ট</button>
+      <button onclick="askShopBot('stock')">📦 স্টক</button>
+      <button onclick="askShopBot('delivery')">🚚 ডেলিভারি</button>
+      <button onclick="askShopBot('contact')">📞 যোগাযোগ</button>
+    </div>
+  </div>
+</div>
+
+  <script>
+    // FAQ question-answer data
+    const faqs = [
+      {q:"দোকান কখন খোলা থাকে?" ,a:"প্রতিদিন সকাল ৮টা থেকে রাত ১০টা পর্যন্ত দোকান খোলা।"},
+      {q:"অনলাইনে অর্ডার করা যায়?",a:"না, এই মুহূর্তে অনলাইনে কোনো অর্ডার সিস্টেম নেই।"},
+      {q:"UPI/QR দিয়ে পেমেন্ট করতে পারবো?",a:"হ্যাঁ, নগদ অর্থ ছাড়াও UPI অথবা QR কোডে পেমেন্ট গ্রহণযোগ্য।"},
+      {q:"স্টকে সব ছবি/পণ্য সবসময় থাকে?",a:"স্টক অনুযায়ী সব পণ্য পাওয়া যায়। কিছু কমন বসন/মুকুট সবসময় থাকে।"},
+      {q:"বাল্ক অর্ডার (অনেকটা একসাথে) নিতে চাই, কীভাবে?",a:"বাল্ক/বড় অর্ডার করতে হল৯৫৪৭৪৮৬৯৯৯ নম্বরে আগে থেকে ফোনে জানিয়ে রাখুন।"},
+      {q:"দোকানের ঠিকানা কী?",a:"হাসনাবাদ পুরাতন বাজার, সুভাষ ময়দানের পাশে, উত্তর ২৪ পরগনা।"},
+      {q:"ম্যাপে দেখার উপায়?",a:"এই পেজের 'দোকানের ম্যাপ' বাটনে ক্লিক করলেই গুগল ম্যাপে দেখবেন।"},
+      {q:"কোনো সমস্যা হলে কোথায় যোগাযোগ করবো?",a:"WhatsApp বা ফোনে (9547486999) সরাসরি যোগাযোগ করুন।"}
+    ];
+    function renderFAQ() {
+      let html = "";
+      faqs.forEach((item, i) => {
+        html += `<button class="faq-q" onclick="toggleFaq(${i})">${item.q}</button>
+                 <div class="faq-a" id="faqA${i}">${item.a}</div>`;
+      });
+      document.getElementById('faqWrap').innerHTML += html;
+    }
+    renderFAQ();
+    function toggleFaq(idx) {
+      const qBtns = document.querySelectorAll('.faq-q');
+      const ansDivs = document.querySelectorAll('.faq-a');
+      qBtns.forEach((btn, i) => {
+        if(i===idx){
+          btn.classList.toggle('active');
+          ansDivs[i].style.display = ansDivs[i].style.display === "block" ? "none" : "block";
+        } else {
+          btn.classList.remove('active');
+          ansDivs[i].style.display = "none";
+        }
+      });
+    }
+  </script>
+  <script>
+// Close Modal
+function closeFlagGallery() {
+  document.getElementById('flagGalleryModal').style.display = 'none';
+}
+
+// Back Button — এখানে যা চাই, যেমন main page-এ hide/show
+function goBackFlag() {
+  // একইভাবে modal hide করিয়ে index/main section show করুন
+  document.getElementById('flagGalleryModal').style.display = 'none';
+  // চাইলে main-section/show লজিক add করুন (যেমন: document.getElementById('mainSection').style.display='block')
+}
+
+// Switch Button — পতাকা বদল/কাতার flag দেখানো
+let qatarFlagOn = false;
+function toggleQatarFlag() {
+  const grid = document.getElementById('flagImagesGrid');
+  if (!qatarFlagOn) {
+    // Qatar Flag show/add
+    grid.innerHTML += `<img src="images/qatar.jpg" alt="Qatar Flag">`;
+    qatarFlagOn = true;
+  } else {
+    // Remove Qatar flag
+    grid.innerHTML = `
+      <img src="images/flag1.jpg" alt="Flag 1">
+      <img src="images/flag2.jpg" alt="Flag 2">
+      <img src="images/flag3.jpg" alt="Flag 3">
+    `;
+    qatarFlagOn = false;
+  }
+}
+</script>
+
+  <script>
+// স্বাধীনতা দিবস (১৫ই আগস্ট ২০২৫) পর্যন্ত টাইমার
+function updateIndTimer() {
+  var now = new Date();
+  var independence = new Date(2025, 7, 15, 0, 0, 0); // 7 means August (0=Jan)
+  var diff = independence - now;
+  var d = Math.floor(diff/(1000*60*60*24));
+  var h = Math.floor((diff/(1000*60*60))%24);
+  var m = Math.floor((diff/(1000*60))%60);
+  var s = Math.floor((diff/1000)%60);
+  if(diff < 0) {
+    document.querySelector('.ind-timer').innerHTML = "আজ স্বাধীনতা দিবস! 🇮🇳";
+    return;
+  }
+  document.getElementById("indDays").textContent = d;
+  document.getElementById("indHours").textContent = h;
+  document.getElementById("indMins").textContent = m;
+  document.getElementById("indSecs").textContent = s;
+}
+// একসাথে চালানো ও প্রতি সেকেন্ডে update
+updateIndTimer();
+setInterval(updateIndTimer, 1000);
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>অনলাইন পেমেন্ট | স্বস্তীপালী দশকর্মা ভাণ্ডার</title>
+<style>
+body
+
+/* Floating bot button — Always bottom right */
+.chatbot-float-btn {
+  position: fixed;
+  right: 20px; bottom: 22px; z-index: 1200;
+  background: linear-gradient(96deg,#e3fff6 70%,#cae6ff 100%);
+  box-shadow: 0 4px 22px #bae6fd3b;
+  border-radius: 25px;
+  display: flex; align-items: center; gap: 9px;
+  padding: 8px 22px 8px 11px;
+  font-size: 1.09em; font-weight: 600; color: #2277c7;
+  cursor: pointer;
+  transition: transform .18s;
+  animation: botBtnIn 0.98s cubic-bezier(.49,1.21,.52,.96);
+}
+@keyframes botBtnIn {
+  0%{opacity:0; transform:scale(.82) translateY(48px);}
+  60%{opacity:.8;}
+  100%{opacity:1; transform:scale(1) translateY(0);}
+}
+.cbot-avatar {
+  width: 38px; height: 38px;
+  background: radial-gradient(circle farthest-side,#bfd7ff 60%,#fff 98%);
+  border-radius: 50%;
+  display: inline-block;
+  background-image: url('images/bot-face.svg'); /* replace with your own bot/emoji/avatar image */
+  background-size: cover; box-shadow:0 2px 10px #bae6fd44;
+}
+.cbot-greet {
+  font-size: 1em; color: #128157;
+  animation: greetAnim 1.16s cubic-bezier(.43,1.14,.56,.89);
+}
+@keyframes greetAnim {
+  0%{opacity:0; transform:scale(.88);}
+  100%{opacity:1; transform:scale(1);}
+}
+
+/* Chatbot Modal */
+.chatbot-modal {
+  position: fixed; top:0; left:0; width:100vw; height:100vh;
+  display:none; align-items:center; justify-content:center;
+  background: rgba(43, 77, 103, 0.19); 
+  z-index:1333;
+}
+.chatbot-window {
+  background: #fffbe6;
+  border-radius: 18px;
+  box-shadow: 0 8px 48px #bae6fd54;
+  width: 99vw; max-width: 370px;
+  min-width: 295px; min-height: 330px;
+  padding: 19px 12px 15px 12px;
+  animation: modalPopIn 1.05s cubic-bezier(.39,1.12,.59,.97);
+  display:flex; flex-direction:column;
+  justify-content:flex-start;
+}
+@keyframes modalPopIn {
+  0%{opacity:0; transform:scale(.85) translateY(37px);}
+  100%{opacity:1; transform:scale(1);}
+}
+.chatbot-header {
+  display:flex; align-items:center;
+  gap:7px; font-size:1.15em;
+  margin-bottom:7px;
+}
+.cbot-avatar-lg {
+  width: 41px; height: 41px; border-radius:50%;
+  background-image: url('images/bot-face.svg');
+  background-size: cover;
+  box-shadow:0 2px 10px #bae6fd35;
+  display:inline-block;
+}
+.chatbot-close {
+  margin-left:auto;
+  background:none;border:none;
+  color:#e14f62;
+  font-size:2em;
+  cursor:pointer;
+  font-weight:700;
+}
+.chatbot-body {
+  flex:1; min-height:90px;
+  margin-bottom:8px;
+  font-size:1em; color:#2d488b;
+}
+.cbot-msg-bot {
+  background: linear-gradient(93deg,#eafeff,#f4fff9 100%);
+  margin-bottom:6px; padding:9px 12px;
+  border-radius:10px; box-shadow:0 2px 8px #bae6fd2c;
+  font-weight:500; animation: msgBotIn 0.73s cubic-bezier(.46,1.09,.53,.94);
+}
+@keyframes msgBotIn {
+  0%{opacity:0; transform:scale(.93) translateY(18px);}
+  100%{opacity:1; transform:scale(1);}
+}
+.cbot-msg-user {
+  background: linear-gradient(91deg,#c9fff0 85%,#fffcec 100%);
+  margin-bottom:6px; padding:8px 13px;
+  border-radius:10px; box-shadow:0 1px 6px #eafbe229;
+  text-align:right; font-weight:450; color:#129f73;
+  animation: msgUserIn 0.61s cubic-bezier(.41,1.17,.52,.87);
+}
+@keyframes msgUserIn {
+  0%{opacity:0; transform:scale(.96) translateY(8px);}
+  100%{opacity:1; transform:scale(1);}
+}
+.chatbot-footer {
+  display:flex; flex-wrap:wrap; gap:8px;
+  justify-content:center; margin-top:12px;
+}
+.chatbot-footer button {
+  background: linear-gradient(92deg,#e6fff9,#fbeff8 83%);
+  border:none; border-radius:13px;
+  padding:7px 17px; margin:2px 0;
+  font-size:1em; font-weight:600; color:#2177c9;
+  box-shadow:0 1px 7px #bae6fd33;
+  cursor:pointer; transition:background .19s, transform .15s;
+}
+.chatbot-footer button:active, .chatbot-footer button:hover {
+  background: linear-gradient(90deg,#eafaff,#ffeeca 98%);
+  transform:scale(1.05);
+}
+
+/* Mobile responsive */
+@media (max-width:600px){
+  .chatbot-window { max-width:99vw; min-width:95vw;}
+  .chatbot-modal { padding-left:0; }
+}
+
+.flag-caption.hide {
+  display: none;
+}
+
+.flag-modal-content {
+  position: relative;
+  background: #fffbe6;
+  border-radius: 18px;
+  box-shadow: 0 4px 38px #c6ecfb44, 0 3px 10px #e3ffc16b;
+  padding: 38px 12px 20px 12px;
+  max-width: 400px;
+  min-width: 320px;
+  text-align: center;
+  animation: popDropIn 0.65s cubic-bezier(.33,1.17,.46,.94);
+}
+
+.flag-btn {
+  position: absolute;
+  background: linear-gradient(91deg,#e6fff9,#fbeff8 70%);
+  border: none;
+  border-radius: 50%;
+  padding: 9px 13px;
+  font-weight: 700;
+  font-size: 1.15em;
+  color: #2177c9;
+  box-shadow: 0 2px 12px #d1f7fb65;
+  cursor: pointer;
+  transition: background 0.17s, transform 0.16s, box-shadow 0.21s;
+  filter: drop-shadow(0 2px 10px #bdf7f233);
+}
+.flag-btn:hover {
+  background: linear-gradient(90deg,#eafaff,#ffeeca 98%);
+  transform: scale(1.08);
+}
+
+.flag-close-btn {
+  top: 14px;
+  right: 16px;
+  font-size: 1.5em;
+  color: #b64d37;
+  animation: switchInBtn .75s cubic-bezier(.53,1.11,.65,.98);
+}
+.flag-back-btn {
+  top: 14px;
+  left: 15px;
+  font-size: 1.1em;
+  color: #2177c9;
+  animation: switchInBtn .88s cubic-bezier(.52,1.15,.61,.99);
+}
+.flag-switch-btn {
+  top: 14px;
+  right: 56px;
+  font-size: 1.25em;
+  color: #127b6e;
+  animation: switchInBtn .84s cubic-bezier(.51,1.21,.38,.97);
+}
+@keyframes switchInBtn {
+  0% {opacity:0; transform:scale(.78) translateY(-24px);}
+  70% {transform:scale(1.15);}
+  100%{opacity:1;transform:scale(1);}
+}
+
+.flag-trigger {
+  background: linear-gradient(93deg,#e3ffe7,#eaf2ff 98%);
+  color: #2277c7;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 30px;
+  font-weight:700;
+  box-shadow:0 2px 12px #bae6fd33;
+  font-size:1.2em;
+  cursor:pointer;
+}
+
+.flag-modal {
+  position: fixed; z-index: 9999;
+  left: 0; top: 0; width: 100%; height: 100%;
+  background: rgba(50,86,163,0.17);
+  display: flex; align-items: center; justify-content: center;
+}
+.flag-modal-content {
+  background: #fffbe6;
+  border-radius: 18px;
+  box-shadow: 0 4px 38px #c6ecfb44, 0 3px 10px #e3ffc16b;
+  padding: 30px 20px;
+  max-width: 400px;
+  min-width: 320px;
+  text-align: center;
+  animation: popDropIn 0.67s cubic-bezier(.33,1.17,.46,.94);
+}
+@keyframes popDropIn {
+  0%{opacity:0;transform:scale(.91) translateY(-16px);}
+  100%{opacity:1;transform:scale(1);}
+}
+.flag-images-grid {
+  display: flex; gap:11px; justify-content:center; flex-wrap:wrap;
+  margin-bottom:12px;
+}
+.flag-images-grid img {
+  width: 70px; height: 44px; object-fit:cover;
+  border-radius:8px;
+  box-shadow:0 2px 10px #bae6fd34;
+  border:1px solid #d3e3ff;
+}
+.close-flag-modal {
+  position:absolute; right:19px; top:7px; font-size:2em; color:#aa3c14; cursor:pointer;
+}
+.flag-note {
+  margin-top:7px; color:#128157; font-size:1em; font-weight:500;
+}
+{margin:0;background:linear-gradient(120deg,#eaf6ff 0%,#fafdff 100%);}
+.pay-wrap{max-width:410px;margin:0 auto;padding:32px 0 36px 0;}
+.pay-title{text-align:center;font-size:1.27em;color:#2065b5;font-weight:700;letter-spacing:.5px;margin-bottom:16px;}
+.pay-qr{display:block;margin:0 auto 14px auto;width:165px;border-radius:14px;box-shadow:0 2px 16px #bde0fe39;}
+.pay-id-row{display:flex;justify-content:center;align-items:center;gap:8px;margin-bottom:10px;}
+.pay-id-lab{font-weight:600;color:#1756a8;letter-spacing:.4px;}
+.pay-id-box{background:#eaf3ff;padding:5px 14px;border-radius:8px;font-family:monospace;font-size:1.08em;font-weight:600;color:#2468ba;cursor:pointer;border:none;transition:.19s;}
+.pay-id-box.copied{animation:copypulse .32s;}
+@keyframes copypulse{0%{background:#caf3fc;}60%{background:#c7faed;}100%{background:#eaf3ff;}}
+.copy-btn{background:#23bc5b;color:#fff;border:none;border-radius:13px;padding:5px 18px;font-weight:700;font-size:.98em;cursor:pointer;box-shadow:0 2px 13px #bae7fd58;transition:.18s;outline:none;}
+.copy-btn.bounce{animation:btnbounce .28s;}
+@keyframes btnbounce{0%{transform:scale(1);}30%{transform:scale(1.18);}60%{transform:scale(0.96);}100%{transform:scale(1);}}
+.input-row{text-align:center;margin:12px 0 7px 0;}
+.input-row label{font-weight:600;color:#24579c;font-size:1.07em;display:block;margin-bottom:7px;}
+.pay-input{font-size:1.17em;padding:8px 14px;border-radius:9px;border:1.2px solid #bae7fd;box-shadow:0 2px 9px #bde0fe25;width:80px;text-align:center;}
+.send-btn{background:linear-gradient(90deg,#37e06a,#25d366 80%);color:#fff;font-weight:700;border:none;border-radius:19px;padding:13px 32px;font-size:1.17em;box-shadow:0 2px 15px #bae6fd;cursor:pointer;display:block;margin:24px auto 4px auto;transition:background .17s;}
+.send-btn:active{background:#1cbc55;}
+.send-btn.pulse{animation:btnpulse .34s;}
+@keyframes btnpulse{0%{transform:scale(1);}35%{transform:scale(1.11);}60%{transform:scale(0.97);}100%{transform:scale(1);}}
+.send-note{font-size:.98em;color:#19536d;text-align:center;margin-top:10px;}
+.pay-qr-lab{text-align:center;font-size:1.02em; color:#155ca1;font-weight:500;margin-bottom:8px;}
+.copy-msg{color:#22bf50;font-size:.99em;text-align:center;margin-bottom:5px;display:none;animation:copymove .51s;}
+@keyframes copymove{from{opacity:0;transform:translateY(11px);}to{opacity:1;transform:translateY(0);}}
+@media screen and (max-width:500px){.pay-wrap{padding:13px 0 17px 0;}.pay-qr{width:104px;}}
+.pay-qr {cursor:pointer; transition:box-shadow .15s;}
+.pay-qr:active {box-shadow:0 3px 22px #bae6fdad;}
+
+.qr-modal-bg {
+  position:fixed; left:0; top:0; width:100vw; height:100vh;
+  background:rgba(29,48,111,.70); z-index:999;
+  display:flex; justify-content:center; align-items:center;
+  animation:fadeQrBg .24s;
+}
+@keyframes fadeQrBg {from{opacity:0;}to{opacity:1;}}
+
+.qr-modal-content {
+  background:#fff; border-radius:18px;
+  box-shadow:0 2px 28px #bae6fd39;
+  max-width:98vw; max-height:91vh;
+  padding:17px 19px 22px 19px;
+  display:flex; flex-direction:column;align-items:center;position:relative;
+}
+.qr-modal-img {
+  max-width:400px; max-height:70vh;
+  border-radius:14px; box-shadow:0 2px 37px #bae6fd55;
+  object-fit:contain; animation:popQrImg .31s;
+}
+@keyframes popQrImg {from{transform:scale(.88);opacity:.5;}to{transform:scale(1);opacity:1;}}
+.qr-modal-close {
+  position:absolute;top:15px;right:23px;font-size:2em;
+  color:#2262c5;background:#eafeefb2;padding:4px 13px;
+  border-radius:17px;z-index:9;border:none;cursor:pointer;
+  box-shadow:0 2px 11px #bde0fe32;transition:.13s;
+}
+.qr-modal-label {
+  color:#1e65b7;font-size:1.07em;font-weight:600;margin-top:9px;text-align:center;
+  background:#ecf7fe;padding:6px 15px;border-radius:12px;
+}
+@media screen and (max-width:600px){
+  .qr-modal-content{padding:9px 3vw;}
+  .qr-modal-img{max-width:93vw;max-height:67vh;}
+}
+.qr-modal-bg {
+  position:fixed; left:0; top:0; width:100vw; height:100vh;
+  background:rgba(29,48,111,.70); z-index:999;
+  display:flex; justify-content:center; align-items:center;
+  animation:fadeQrBg .24s;
+}
+@keyframes fadeQrBg {from{opacity:0;}to{opacity:1;}}
+.qr-modal-content {
+  background:#fff; border-radius:18px;
+  box-shadow:0 2px 28px #bae6fd39;
+  max-width:98vw; max-height:91vh;
+  padding:17px 19px 22px 19px;
+  display:flex; flex-direction:column; align-items:center; position:relative;
+}
+.qr-modal-img {
+  max-width:400px; max-height:70vh;
+  border-radius:14px; box-shadow:0 2px 37px #bae6fd55;
+  object-fit:contain; animation:popQrImg .31s;
+}
+@keyframes popQrImg {from{transform:scale(.88);opacity:.5;}to{transform:scale(1);opacity:1;}}
+.review-section {
+  background:#f8faff; border-radius:15px; box-shadow:0 2px 15px #bae6fd2a;
+  max-width:360px; margin:34px auto 22px auto; padding:17px 15px;
+}
+.rev-title { font-size:1.12em;font-weight:700;color:#1955b1;margin-bottom:10px;text-align:center;}
+.star-wrap {text-align:center;margin-bottom:12px;}
+.star {
+  font-size:2.2em; color:#ececec; cursor:pointer; transition:.18s cubic-bezier(.44,1.64,.18,.86);
+  margin:0 4px; user-select:none; filter:drop-shadow(0 1px 6px #bae6fd19);
+  display:inline-block; position:relative;
+}
+.star.sel {
+  color:#ffbb38; transform:scale(1.18) rotate(-4deg); animation:starPop .34s;
+}
+@keyframes starPop {
+  45%{transform:scale(1.28) rotate(-10deg);}
+  100%{transform:scale(1.18) rotate(-4deg);}
+}
+.star:active {transform:scale(1.13);}
+.rev-btn {
+  padding:7px 20px; border:none; border-radius:11px;font-weight:700;font-size:1.08em;
+  background:linear-gradient(90deg,#eefff4,#f4fbff);color:#2e8b57;
+  box-shadow:0 2px 12px #bae6fd15;cursor:pointer;transition:.13s;
+}
+.rev-btn:active {transform:scale(1.09);}
+#revTxt { width:93%;padding:7px 8px;border-radius:9px;border:1px solid #bce0fd9a;margin-bottom:9px;}
+#revEmoji { transition:.18s; }
+/* --- Review/Star Rating Section CSS --- */
+.review-section {
+  background: #f6f8ff;
+  border-radius: 16px;
+  box-shadow: 0 2px 17px #bae6fd2f;
+  max-width: 380px;
+  margin: 36px auto 24px auto;
+  padding: 18px 16px;
+}
+.rev-title {
+  font-size: 1.17em;
+  font-weight: 700;
+  color: #1955b1;
+  margin-bottom: 10px;
+  text-align: center;
+  letter-spacing: .4px;
+}
+.star-wrap {
+  text-align: center;
+  margin-bottom: 14px;
+}
+.star {
+  font-size: 2.5em;
+  color: #ececec;
+  cursor: pointer;
+  margin: 0 5px;
+  user-select: none;
+  transition: transform .23s cubic-bezier(.86,.07,.5,1.49), color .15s, filter .15s;
+  filter: drop-shadow(0 1px 12px #bae6fd33);
+  display: inline-block;
+  position: relative;
+}
+.star.sel {
+  color: #ffc10f;
+  text-shadow: 0 0 16px #ffe188, 0 0 32px #ffd5006b;
+  filter: drop-shadow(0 2px 18px #ffe18882);
+  transform: scale(1.21) rotate(-8deg);
+  animation: starBounce 400ms cubic-bezier(.51,2,.28,.81);
+}
+@keyframes starBounce {
+  0%   {transform: scale(1) rotate(0);}
+  35%  {transform: scale(1.28) rotate(-12deg);}
+  65%  {transform: scale(0.98) rotate(-7deg);}
+  100% {transform: scale(1.21) rotate(-8deg);}
+}
+.star:active {transform: scale(1.12);}
+.rev-btn {
+  padding: 8px 24px; border: none; border-radius: 13px;
+  font-weight: 700; font-size: 1.07em;
+  background: linear-gradient(90deg,#f5fff7,#e7f6ff); color: #2e8b57;
+  box-shadow: 0 2px 14px #bae6fd23; cursor: pointer; transition: .14s;
+}
+.rev-btn:active {transform: scale(1.1);}
+#revTxt { width: 94%;padding: 8px 8px;border-radius: 10px;border: 1.5px solid #e0e8fd;margin-bottom:10px;}
+#revEmoji {
+  transition: font-size .18s, transform .18s, color .18s;
+}
+#revThanks {
+  color: #1c7b24;
+  text-align: center;
+  font-size: 1.03em;
+  letter-spacing: .6px;
+}
+.pay-send-wrap {
+  background: #f8fbff; border-radius: 13px; box-shadow: 0 2px 11px #bae6fd27;
+  max-width: 340px; margin: 22px auto 14px auto; padding: 16px 14px;
+  text-align:center;
+}
+.pay-send-wrap input, .pay-send-wrap textarea {
+  width: 96%; padding: 8px 8px; border-radius: 8px; border: 1.3px solid #e1f3ff;
+  margin-bottom: 8px; font-size: 1em; box-sizing: border-box;
+}
+.pay-wabtn {
+  padding: 9px 22px; border: none; border-radius: 11px;
+  font-weight: 700; font-size: 1.04em;
+  background: linear-gradient(90deg,#dbeffe,#eaffea);
+  color: #2263bc;
+  box-shadow: 0 2px 8px #bae6fd1b; cursor: pointer; transition: .14s;
+}
+.pay-wabtn:active {transform: scale(1.06);}
+.upi-id-box {
+  background: #f6fff8;
+  border-radius: 10px;
+  box-shadow: 0 2px 9px #bde0fe17;
+  max-width: 290px;
+  margin: 9px auto 12px auto;
+  padding: 10px 8px;
+  font-size: 1.03em; color: #086a58;
+  text-align: center;
+  border: 1.4px solid #e1f7ee;
+}
+#upiIdShow { font-weight:700; color:#184abe; }
+.payment-btn-box {
+  text-align: center;
+  margin: 20px 0 0 0;
+}
+
+.pay-wabtn-lite {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 1.17em;
+  font-weight: 700;
+  padding: 13px 34px;
+  background: linear-gradient(92deg,#f5fff7,#eaf2ff 98%);
+  color: #1d6fb2;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 2px 18px #bae6fd1b;
+  cursor: pointer;
+  transition: background .14s, transform .16s, box-shadow .21s;
+  position: relative;
+  overflow: hidden;
+  animation: wabtnLiteIn .82s cubic-bezier(.43,1.18,.59,.97);
+}
+@keyframes wabtnLiteIn {
+  0% {opacity: 0; transform: scale(.92) translateY(14px);}
+  100%{opacity: 1; transform: scale(1) translateY(0);}
+}
+.pay-wabtn-lite:active {
+  transform: scale(1.04);
+  background: linear-gradient(90deg,#cfffcf,#e2f7ff);
+}
+
+.pay-wabtn-lite .btn-icon {
+  font-size: 1.15em;
+  margin-right: 3px;
+  animation: iconLiteBounce 1s;
+  filter: drop-shadow(0 2px 6px #e6ffec76);
+}
+@keyframes iconLiteBounce {
+  0% { transform: scale(.87) translateY(-12px);}
+  32% { transform: scale(1.17);}
+  100%{transform: scale(1) translateY(0);}
+}
+.pay-wabtn-lite .btn-arrow {
+  font-size: 1em;
+  margin-left: 7px;
+  opacity: .83;
+  animation: arrowLiteWiggle 1.15s;
+}
+@keyframes arrowLiteWiggle {
+  0% { transform: translateX(-12px) scale(.7); opacity:0;}
+  50% { opacity:1; }
+  100%{transform: translateX(0) scale(1); opacity:.83;}
+}
+.review-info {
+  font-size: 1.05em;
+  background: #f7faff;
+  color: #3362ad;
+  padding: 8px 14px;
+  border-radius: 9px;
+  margin: 0 auto 14px auto;
+  text-align: center;
+  box-shadow: 0 2px 8px #eaf4ff29;
+  font-weight: 500;
+}
+.site-sortaboli {
+  background: #fff8ed;
+  color: #92590a;
+  border-radius: 10px;
+  margin: 15px auto 12px auto;
+  max-width: 360px;
+  padding: 11px 16px;
+  font-size: 1.01em;
+  box-shadow: 0 2px 10px #ffe4cb31;
+  text-align: left;
+  font-weight: 500;
+  border: 1.2px solid #fbe2bd;
+}
+.site-sortaboli strong {
+  color: #cf7f13;
+  font-size: 1.08em;
+  letter-spacing: .03em;
+}
+.review-submit-btn-anim {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  font-size: 1.16em;
+  font-weight: 700;
+  padding: 13px 38px;
+  background: linear-gradient(90deg,#fffbe3 67%,#e2ffe7 100%);
+  color: #2277c7;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 2px 18px #bae6fd2f, 0 2px 12px #e3ffc131;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.2s, transform 0.17s, box-shadow 0.22s;
+  animation: btnDropIn 1.18s cubic-bezier(.31,1.11,.56,.96);
+}
+@keyframes btnDropIn {
+  0% { opacity:0; transform:scale(.80) translateY(28px);}
+  74% { box-shadow: 0 2px 26px #148cff44;}
+  100% { opacity:1; transform:scale(1) translateY(0);}
+}
+.review-submit-btn-anim:active {
+  background: linear-gradient(90deg,#d5fff4 81%,#fffde2 100%);
+  transform: scale(1.09);
+  box-shadow: 0 4px 38px #81ffda85;
+}
+.review-submit-btn-anim:hover {
+  background: linear-gradient(90deg,#defff7 81%,#fffde2 100%);
+  box-shadow: 0 4px 16px #8df5c184, 0 2px 40px #f2fbe2b2;
+  filter: drop-shadow(0 2px 16px #e2ffeb66);
+  transform: scale(1.04);
+}
+.review-submit-btn-anim .btn-arrow {
+  font-size: 1.04em;
+  margin-left: 10px;
+  opacity: .88;
+  animation: arrowWigglePulse 1.17s;
+}
+@keyframes arrowWigglePulse {
+  0% { transform: translateX(-15px) scale(.77); opacity:0;}
+  50% { opacity:.87;}
+  100% { transform: translateX(0) scale(1); opacity:.88;}
+}
+.review-submit-btn-anim .btn-icon {
+  font-size: 1.25em;
+  margin-right: 7px;
+  animation: iconPulseFadeIn 1.03s;
+  filter: drop-shadow(0 1.5px 10px #aeffed38);
+}
+@keyframes iconPulseFadeIn {
+  0% { transform:scale(.71) translateY(-19px); opacity:0;}
+  41% { opacity:.87;}
+  95% { transform:scale(1.19);}
+  100%{transform: scale(1) translateY(0); opacity:1;}
+}
+/* Success pulse (optional, JS success হলে class add করতে পারেন) */
+.review-submit-btn-anim.success {
+  animation: btnSuccessPulse .5s;
+}
+@keyframes btnSuccessPulse {
+  0% { box-shadow: 0 0 0 0 rgba(46,220,167,0.6); }
+  80% { box-shadow: 0 0 18px 7px rgba(46,220,167,0.28);}
+  100% { box-shadow: 0 0 8px 3px rgba(46,220,167,0.18);}
+}
+
+.cbot-msg-box {
+  background:#f9fae7; border-radius:10px; box-shadow:0 1px 7px #e8ebd966;
+  padding:13px 16px; min-height:40px; color:#2b4144; font-size:1.09em;
+  margin:18px 0 5px 0;
+  position: relative;
+  animation: msgShowIn .69s cubic-bezier(.48,1.22,.55,.95);
+  line-height: 1.6;
+}
+@keyframes msgShowIn {
+  0%{opacity:0;transform:scale(.92) translateY(13px);}
+  100%{opacity:1;}
+}
+.cbot-typing {
+  display:flex; align-items:center; gap:6px;
+  margin:10px 0 5px 0; padding:13px 16px;
+  background: linear-gradient(93deg,#e1faef 90%,#fffae7 98%);
+  border-radius:13px; box-shadow:0 1px 7px #e9ffdd42;
+  font-size:1.09em; color: #138f66; font-weight:500;
+  min-width: 100px;
+  width:fit-content;
+  animation: typingIn .42s cubic-bezier(.41,1,.41,1);
+}
+@keyframes typingIn {
+  0%{opacity:0;transform:scale(.85);}
+  100%{opacity:1;}
+}
+.cbot-typing .dot {
+  display:inline-block; width:7px; height:7px;
+  background:#48cd99; border-radius:50%; margin-left:2.5px;
+  animation: blink 1s infinite both;
+}
+.cbot-typing .dot:nth-child(2){animation-delay:.18s;}
+.cbot-typing .dot:nth-child(3){animation-delay:.34s;}
+@keyframes blink {
+  0%,80%,100%{opacity:.2;}
+  40%{opacity:1;}
+}
+
+</style>
+</head>
+
+<div class="review-info">
+   আপনার <b>অভিজ্ঞতা</b> জানাতে <b>রিভিউ করুন⬇️</b>
+</div>
+
+<div class="star-wrap" id="starWrap">
+  <span class="star" data-val="1"></span>
+  <span class="star" data-val="2"></span>
+  <span class="star" data-val="3"></span>
+  <span class="star" data-val="4"></span>
+  <span class="star" data-val="5"></span>
+</div>
+<input type="text" id="revTxt" placeholder="আপনার মতামত বা প্রশ্ন লিখতে পারেন">
+
+<button class="review-submit-btn-anim" onclick="submitReview()">
+  <span class="btn-icon">✅</span>
+  রিভিউ সাবমিট করুন
+  <span class="btn-arrow"></span>
+</button>
+
+<div id="revEmoji" style="font-size:2.6em;margin-top:5px;text-align:center;"></div>
+<script>
+function sendPayWhatsApp() {
+  // Owner/admin WhatsApp নম্বর (পরিবর্তন করতে পারেন)
+  var msg = "আমি online payment করতে চাই, payment QR codeটা send করুন";
+  window.open("https://wa.me/9547486999?text="+encodeURIComponent(msg),"_blank");
+}
+</script>
+
+<script>
+const emojiList = ["😢", "😐", "😊", "😁", "😍"];
+document.querySelectorAll('.star').forEach(function(star, idx) {
+  star.innerText = "★";
+  star.onclick = function() {
+    window.selectedStar = parseInt(this.getAttribute('data-val'));
+    document.querySelectorAll('.star').forEach((s,i)=>{
+      s.classList.toggle('sel', i<window.selectedStar);
+    });
+    document.getElementById('revEmoji').textContent = emojiList[Math.max(0,window.selectedStar-1)] || "";
+  }
+});
+function submitReview() {
+  if(!window.selectedStar){
+    alert('স্টার দিন!');
+    return;
+  }
+  let txt = document.getElementById('revTxt').value.trim();
+  document.getElementById('revEmoji').style.fontSize = "3em";
+  document.getElementById('revEmoji').style.color = "#37a81a";
+  let thanksDiv = document.getElementById('revThanks');
+  if(thanksDiv){
+    thanksDiv.innerText = 'ধন্যবাদ! আপনার রিভিউ পাঠানো হয়েছে।';
+    thanksDiv.style.display='block'; }
+  let msg = `[রিভিউ] ⭐️: ${window.selectedStar}\nইমোশন: ${document.getElementById('revEmoji').textContent}\nমন্তব্য: ${txt}`;
+  window.open("https://wa.me/9547486999?text="+encodeURIComponent(msg),"_blank");
+}
+</script>
+
+<script>
+
+</script>
+
+<body>
+  <script>
+function showQrModal(){
+  document.getElementById('qrModal').style.display='flex';
+}
+function closeQrModal(){
+  document.getElementById('qrModal').style.display='none';
+}
+</script>
+<div class="site-sortaboli">
+  <strong>শর্তাবলী:</strong><br>
+  • আমরা অনলাইন ডেলিভারি সেবা প্রদান করি না। এই ওয়েবসাইট শুধুমাত্র পণ্যের ছবি ও ক্যাটালগ প্রদর্শনের জন্য।<br>
+  • স্টক পরিবর্তনশীল—আগে আসার পূর্বে ফোনে বা দোকানে যোগাযোগ করে নিশ্চিত করুন<br>
+  •  ওয়েবসাইটে প্রদর্শিত ছবি শুধুমাত্র উদাহরণস্বরূপ; বাস্তব পণ্যের চেহারা কিছুটা ভিন্ন হতে পারে।<br>
+  • কোনো দাবি, অভিযোগ অথবা পণ্যের সমস্যায় সরাসরি দোকানের সঙ্গে যোগাযোগ করার জন্য অনুরোধ করা হচ্ছে।
+</div>
+
+
+</script>
+</body>
+</html>
