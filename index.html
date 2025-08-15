@@ -1,1 +1,257 @@
 
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <title>স্বস্তীপালী দশকর্মা ভান্ডার</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      margin: 0; min-height: 100vh;
+      font-family: 'Noto Sans Bengali', 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(120deg, #e5eaff 0%, #d1fffa 46%, #fffbe7 100%);
+      position: relative;
+      animation: bgfadeIn 2.3s;
+    }
+    @keyframes bgfadeIn {from{opacity:0;}to{opacity:1;}}
+
+    .container {max-width: 430px; margin:0 auto; padding:0 0 120px 0;}
+
+    /* দোকানের নাম */
+    .store-title {
+      font-size: 3.25em; font-weight: 900; text-align: center;
+      letter-spacing: .017em; margin: 52px 0 36px 0;
+      background: linear-gradient(104deg, #1b62b9, #7b36e0 44%, #ffb65e 90%);
+      -webkit-background-clip: text; background-clip: text;
+      color: transparent; -webkit-text-fill-color: transparent;
+      animation: wavify .9s cubic-bezier(.48,1.41,.59,.99), colorWave 18s linear infinite;
+      line-height: 1.18;
+    }
+    @keyframes wavify {from{transform:scale(.86) translateY(-48px);opacity:0;}to{transform:scale(1) translateY(0);opacity:1;}}
+    @keyframes colorWave {0%{background-position:0 50%;}100%{background-position:400% 50%;}}
+
+    /* Catalogue button - glassy crystal prominent */
+    .main-btn {
+      display:block; width:100%; max-width:380px;
+      margin:16px auto 19px auto; padding:20px 0;
+      border:none; border-radius:27px;
+      font-size:1.31em; font-weight:900;
+      letter-spacing:.012em; text-align:center; color: #a236ec;
+      background:linear-gradient(139deg,#e7f6fd 13%,#faf2ff 55%,#bffff9 99%);
+      box-shadow:0 6px 32px #c2ecff88,0 2px 21px #b490ff22;
+      outline: none; cursor:pointer; position:relative;
+      overflow:hidden; transition: all .17s cubic-bezier(.66,1.43,.35,.86);
+    }
+    .main-btn:active, .main-btn:focus {
+      background:linear-gradient(123deg,#f4eaff 6%,#e4fbf7 93%); color:#481085; transform:scale(1.04);
+      box-shadow:0 7px 14px #bfbbf899;
+    }
+    .main-btn::after {
+      content:""; position:absolute; left:0;top:0;width:100%;height:100%;
+      background: linear-gradient(80deg,#fff 8%,#e9dfff77 50%,#c1f7fb33 96%);
+      opacity:0;transition:opacity .22s;
+      pointer-events:none; z-index:2;
+    }
+    .main-btn.glassy-anim::after {
+      opacity:.64; animation:btnShine 1.38s 1;
+    }
+    @keyframes btnShine {0%{opacity:.07;}60%{opacity:.88;}100%{opacity:0;}}
+
+    /* WhatsApp, Call, Map */
+    .btn-group {display: flex; gap:16px; margin:19px auto; justify-content:center;}
+    .contact-btn, .map-btn {
+      flex:1; font-size:1.09em;
+      border:none;
+      border-radius:19px;
+      padding:16px 0;
+      font-weight:900;
+      background:linear-gradient(92deg,#ebffe7 8%,#b7e8ff 100%);
+      box-shadow:0 1.5px 12px #b0eaff26;
+      color:#2174c9; letter-spacing:.01em;
+      cursor:pointer;outline:none;transition:background .16s, color .13s, transform .09s;
+      margin:0;
+    }
+    .contact-btn.whatsapp{background:linear-gradient(93deg,#cbffd2 15%,#33f1a7 93%);color:#086e46;}
+    .contact-btn.call{background:linear-gradient(97deg,#e7dfff 23%,#bcd1ff 95%);color:#4d3fd3;}
+    .map-btn{background:linear-gradient(91deg,#d7feea 11%,#fffbbb 100%);color:#0a7650;}
+    .btn-group button:active, .btn-group button:focus {filter:brightness(.91);transform:scale(1.04);}
+    .label-head {font-size:1.05em;color:#5482d2;font-weight:800;margin:44px 0 8px 0;text-align:center;letter-spacing:.04em;}
+
+    /* Review */
+    .review-section {max-width:410px;margin:37px auto 0 auto; background:rgba(247,245,255,.89);
+      padding:22px 14px 17px 14px; border-radius:15px;
+      box-shadow:0 6px 32px #e4f0ff18;}
+    .review-title {font-size:1.11em; font-weight:900; margin-bottom:13px; text-align:center;
+      background:linear-gradient(97deg,#90abf4 10%,#cbeefa 80%);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;color:transparent;}
+    .review-list {margin:14px 0 11px 0; padding:0; list-style:none;}
+    .review-list li {margin:0 0 15px 0; background:rgba(226,252,244,.97);padding:10px 14px 7px 14px; border-radius:15px;
+      box-shadow:0 2px 11px #dbeeff16; font-size:1em; color:#217579;}
+    .stars {color:#f4c12d; font-size:1.1em; margin-bottom:2px;letter-spacing:2px;display:block;}
+    .review-meta { font-size:.91em; color:#7c6fbc; margin-top:2px; display:block;}
+    .review-form {
+      display:flex; flex-direction:column; gap:12px; margin-top:7px;
+      background:#f4f8fd; border-radius:11px; padding:9px 8px 8px 8px; box-shadow:0 2px 7px #c7e8fd1f;
+    }
+    .review-input, .review-name {font-size:1em; padding:7px 10px; border-radius:8px; border:1.2px solid #c9c8ed; outline:none; background:#fcfcfd;}
+    .review-btn {padding:10px 0; border:none; border-radius:12px; font-weight:900;
+      background:linear-gradient(90deg,#f9e7ff 18%,#e2fcfe 76%);
+      color:#5a41ae; font-size:1.07em; cursor:pointer;
+      box-shadow:0 2px 7px #e1fbff81;
+      transition:background .12s, color .09s;}
+    .review-btn:hover, .review-btn:active {background:linear-gradient(95deg,#e3f1ff 8%,#e7e0ff 97%);color:#9a1bc5;}
+    .star {cursor:pointer; font-size:1.25em;transition:color .1s;}
+    .star:hover,.star:focus{color:#f4c12d;}
+
+    /* Chatbot Floating + Modal */
+    .chatbot-float-btn {
+      position: fixed; right: 18px; bottom: 22px; z-index: 1400;
+      background: linear-gradient(91deg,#f5f8ff 23%,#daf8fc 100%);
+      box-shadow:0 4px 28px #c8f1ff85;
+      border-radius: 26px; display:flex; align-items:center; gap:10px;
+      padding:13px 23px 13px 13px; font-size:1.09em;font-weight:700;color:#2077d5;
+      cursor:pointer; border:none;outline:none; letter-spacing:.01em; opacity:.98;
+      transition: filter .17s, box-shadow .12s, background .13s;
+    }
+    .chatbot-float-btn:active{filter:brightness(.97);}
+    .cbot-avatar {width:34px;height:34px;border-radius:50%; background:#e6edfb url('images/bot-face.svg') no-repeat center/cover;margin-right:4px;box-shadow:0 1.5px 11px #b6c8fd66;}
+    .chatbot-modal {position: fixed; top:0; left:0; width:100vw; height:100vh; display:none; align-items:center; justify-content:center;
+      background: rgba(32, 42, 70, 0.18); z-index: 1650;}
+    .chatbot-window {background: #fff; border-radius: 16px; box-shadow: 0 8px 44px #d1ecff41;
+      width: 99vw; max-width: 335px; min-height: 330px; padding: 16px 12px 10px 12px;
+      animation: modalPop .9s cubic-bezier(.36,1.13,.42,1.02); display:flex;flex-direction:column;}
+    @keyframes modalPop{from{opacity:0;transform:scale(.74)}to{opacity:1;transform:scale(1)}}
+    .chatbot-header{display:flex;align-items:center;justify-content:space-between;gap:11px;font-size:1.1em;margin-bottom:8px;}
+    .chatbot-close{background:none;border:none;font-size:1.53em;color:#d83a3a;cursor:pointer;font-weight:900;}
+    .chatbot-close:hover{color:#8820a4;}
+    .chatbot-body{flex:1;min-height:145px;max-height:310px;overflow-y:auto;padding:8px 2px 4px 2px;font-size:1.07em;color:#25607c;}
+    .cbot-msg-bot{background:#f3faff;border-radius:10px;margin-bottom:9px;padding:10px; box-shadow:0 1.5px 7px #e1e8fd53;}
+    .animate-bot{animation:botMsgAnim .3s cubic-bezier(.27,.96,.55,1.13);}
+    @keyframes botMsgAnim{from{opacity:.1;transform:scale(.87);}to{opacity:1;transform:scale(1);}}
+    .chatbot-footer{display:flex;flex-wrap:wrap;gap:7px;justify-content:flex-start;margin-top:8px}
+    .chatbot-footer button{background:linear-gradient(89deg,#e9f6ff 35%,#f7e2ff 91%);
+      border:none;border-radius:10px;padding:7px 13px;font-size:1.01em;font-weight:700;
+      cursor:pointer;color:#1a74b6;transition:background .13s;}
+    .chatbot-footer button:active{background:#d2cfff;}
+    @media (max-width:540px){.container{max-width:99vw;}.store-title{font-size:1.58em;}.review-section{max-width:99vw;}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="store-title">স্বস্তীপালী দশকর্মা ভান্ডার</div>
+    <button class="main-btn" id="catBtn">জন্মাষ্টমী ক্যাটালগ দেখুন</button>
+    <div class="btn-group">
+      <button class="contact-btn whatsapp" onclick="window.open('https://wa.me/919547486999')">WhatsApp</button>
+      <button class="contact-btn call" onclick="window.open('tel:+919547486999')">কল করুন</button>
+      <button class="map-btn" onclick="window.open('https://maps.app.goo.gl/Gk8oAPdFFKYXCLrg6')">দোকানের ম্যাপ</button>
+    </div>
+    <div class="label-head">রিভিউ দিন 👇</div>
+    <section class="review-section" id="review-block">
+      <div class="review-title">⭐ রিভিউ দিন (আপনি submit করলে সকলেই দেখতে পারবে)</div>
+      <ul class="review-list" id="review-list"></ul>
+      <form class="review-form" id="review-form">
+        <input class="review-name" type="text" id="reviewer" placeholder="নাম" required>
+        <div style="margin-bottom:8px;">
+          <span style="font-weight:900;">Rating: </span>
+          <span id="star-block">
+            <span class="star" data-star="1">&#9733;</span>
+            <span class="star" data-star="2">&#9733;</span>
+            <span class="star" data-star="3">&#9733;</span>
+            <span class="star" data-star="4">&#9733;</span>
+            <span class="star" data-star="5">&#9733;</span>
+          </span>
+        </div>
+        <textarea class="review-input" id="reviewmsg" rows="2" placeholder="আপনার রিভিউ লিখুন..." required></textarea>
+        <button class="review-btn" type="submit">সাবমিট করুন</button>
+      </form>
+    </section>
+  </div>
+  <!-- Main Chatbot Button -->
+  <button class="chatbot-float-btn" onclick="openShopBot()">
+    <span class="cbot-avatar"></span>
+    <span class="main-chatbot-text">Main Chatbot</span>
+  </button>
+  <!-- Chatbot Modal/Panel -->
+  <div id="shopChatModal" class="chatbot-modal">
+    <div class="chatbot-window">
+      <div class="chatbot-header">
+        <span class="cbot-avatar"></span>
+        <span style="font-weight:700;color:#166cbc">Shop Assistant • Chatbot</span>
+        <button class="chatbot-close" onclick="closeShopBot()">&times;</button>
+      </div>
+      <div class="chatbot-body" id="shopBotBody">
+        <div class="cbot-msg-bot animate-bot">👋 স্বাগত! কী জানতে চান? নিচের টপিক ক্লিক করুন বা লিখুন।</div>
+      </div>
+      <div class="chatbot-footer">
+        <button onclick="addBotMsg('পণ্য');">🛒 পণ্য</button>
+        <button onclick="addBotMsg('যোগাযোগ');">📞 যোগাযোগ</button>
+        <button onclick="addBotMsg('অর্ডার');">📝 অর্ডার</button>
+        <button onclick="addBotMsg('পেমেন্ট');">💳 পেমেন্ট</button>
+        <button onclick="addBotMsg('ফেরত');">🔁 ফেরত</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Catalogue Button glassy effect
+    document.getElementById('catBtn').onclick = function(){
+      this.classList.add('glassy-anim');
+      setTimeout(()=>this.classList.remove('glassy-anim'),700);
+      window.location.href='catalogue.html';
+    }
+    // Review System with star
+    let selectedStars = 0;
+    document.querySelectorAll('.star').forEach(star => {
+      star.onclick = () => {
+        selectedStars = parseInt(star.getAttribute('data-star'));
+        document.querySelectorAll('.star').forEach((s,i) => {
+          s.style.color = i < selectedStars ? '#f4c12d' : '#ddd';
+        });
+      };
+    });
+    function loadReviews() {
+      let reviews = JSON.parse(localStorage.getItem('store_reviews_v4') || '[]');
+      const list = document.getElementById('review-list');
+      list.innerHTML = '';
+      reviews.forEach(function(rv) {
+        const li = document.createElement('li');
+        li.innerHTML = `<span class="stars">${'★'.repeat(rv.stars)}${'☆'.repeat(5-rv.stars)}</span>
+                        <div>${rv.msg}</div>
+                        <span class="review-meta">— ${rv.name} • ${rv.time}</span>`;
+        list.appendChild(li);
+      });
+    }
+    document.getElementById('review-form').onsubmit = function(e){
+      e.preventDefault();
+      const name = document.getElementById('reviewer').value.trim();
+      const msg = document.getElementById('reviewmsg').value.trim();
+      if(!name || !msg || !selectedStars) return alert('নাম, রিভিউ ও স্টার দিন!');
+      let reviews = JSON.parse(localStorage.getItem('store_reviews_v4') || '[]');
+      reviews.unshift({name, msg, stars:selectedStars, time:new Date().toLocaleString()});
+      localStorage.setItem('store_reviews_v4',JSON.stringify(reviews));
+      loadReviews();
+      e.target.reset(); selectedStars=0;
+      document.querySelectorAll('.star').forEach(star => star.style.color='#ddd');
+    }
+    window.onload = loadReviews;
+
+    // Chatbot Modal Functions
+    function openShopBot() { document.getElementById('shopChatModal').style.display = 'flex'; }
+    function closeShopBot() { document.getElementById('shopChatModal').style.display = 'none'; }
+    function addBotMsg(type) {
+      let reply = '';
+      if(type==='পণ্য') reply='🎁 নতুন ও মৌসুমি দশকর্মা, সাজসজ্জা, ফেস্টিভাল কালেকশন এবং পতাকা এখানে পাওয়া যায়!';
+      else if(type==='যোগাযোগ') reply='📞 ফোন: 9547486999 | WhatsApp এও পাওয়া যাবে!';
+      else if(type==='অর্ডার') reply='✍️ দোকানে এসে সরাসরি অর্ডার করুন। প্রয়োজনে ফোনে আগে জানাবেন।';
+      else if(type==='পেমেন্ট') reply='💳 ক্যাশ/ UPI/ QR—সব মাধ্যমে পেমেন্ট সম্ভব!';
+      else if(type==='ফেরত') reply='🔁 বিশেষ প্রয়োজনে ফেরত, এক্সচেঞ্জ সম্ভব—দোকানে জানাবেন।';
+      else reply='🙌 আপনার প্রশ্নটি বুঝতে পারছিনা, অন্য বাটন ক্লিক বা নম্বরে যোগাযোগ দিন।';
+      const body = document.getElementById('shopBotBody');
+      const msg = document.createElement('div');
+      msg.className = 'cbot-msg-bot animate-bot';
+      msg.textContent = reply;
+      body.appendChild(msg);
+      body.scrollTop = body.scrollHeight;
+    }
+  </script>
+</body>
+</html>
