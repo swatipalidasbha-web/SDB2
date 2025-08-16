@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <title>ক্যাটালগ</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    body {margin:0;padding:0;background:linear-gradient(115deg,#fffbe1 0,#e2eeff 100%);font-family:'Noto Sans Bengali','Segoe UI',Arial,sans-serif;}
+    .container{max-width:430px;margin:0 auto;}
+    h1{text-align:center;color:#1d469c;font-weight:900;font-size:1.13em;margin:16px 0 7px 0;}
+    .lang-btn-bar {
+      position:fixed;top:10px;right:10px;z-index:300;display:flex;gap:0;
+      background:rgba(245,247,255,0.62);border-radius:17px;
+      box-shadow:0 2px 16px #d1edff1a;border:1px solid #dde6fb;padding:0 2px;
+    }
+    .lang-sbtn {padding:3px 10px;font-size:.90em;border:none;background:none;font-weight:900;cursor:pointer;color:#227be2;transition:.11s;opacity:.89;border-radius:15px;height:23px;line-height:18px;}
+    .lang-sbtn.active {background:#2772ec;color:#fff;opacity:1;}
+    .cat-menu{margin:16px auto 12px auto;text-align:center;display:flex;flex-wrap:wrap;gap:9px;justify-content:center;}
+    .cat-menu-btn{background:#fcfaeb;border:none;color:#203675;font-weight:900;font-size:.97em;padding:7px 14px 7px 14px;border-radius:10px;margin-bottom:3px;cursor:pointer;}
+    .cat-menu-btn.active{background:#2678e3;color:#fff;}
+    .cat-section{margin:0 8px 22px 8px;background:#fff;border-radius:11px;padding:12px 6px 10px 7px;box-shadow:0 1px 11px #eef3fa18;}
+    .cat-section-title{font-size:1em;color:#7d24d3;font-weight:900;margin-bottom:6px;}
+    .cat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(94px,1fr));gap:8px;margin-bottom:7px;}
+    .cat-card{background:#f7fbfd;border-radius:8px;box-shadow:0 1.5px 7px #c2e7fa20;padding:6px 3px 5px 3px;display:flex;flex-direction:column;align-items:center;cursor:pointer;position:relative;outline:none;border:2px solid #ede9fc;}
+    .cat-card:active{transform:scale(.97);}
+    .cat-card img{width:100%;max-width:71px;height:57px;object-fit:cover;border-radius:7px;margin-bottom:5px;}
+    .card-title{font-weight:800;font-size:.96em;text-align:center;color:#2452be;}
+    .like-btn{position:absolute;top:5px;right:9px;background:none;border:none;cursor:pointer;}
+    .like-btn.hearted{color:#f44336;}
+    .like-ico{font-size:1.07em;}
+    .cat-paginate-bar{display:flex;justify-content:center;gap:10px;margin-bottom:4px;}
+    .page-btn{padding:5px 13px;border:none;border-radius:6px;background:#397aed;color:#fff;font-weight:900;cursor:pointer;font-size:.93em;}
+    .page-btn:disabled{background:#f3f3fa;color:#7b95bc;}
+    .cat-video-btn{display:block;margin:9px auto 3px auto;background:#eaf6fd;border:1.2px solid #96bafd;border-radius:15px;padding:7px 14px;font-weight:900;color:#3574a9;font-size:.94em;box-shadow:0 1px 5px #e5eafd11;cursor:pointer;}
+    .no-more{text-align:center;font-size:.93em;color:#888;font-weight:900;padding:8px 0;}
+    .photo-modal-bg{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(36,59,94,0.34);z-index:1101;display:none;align-items:center;justify-content:center;}
+    .photo-modal-bg.active{display:flex;}
+    .photo-modal-inner{background:#fff;max-width:97vw;max-height:94vh;border-radius:16px;box-shadow:0 6px 43px #b0b7f140;position:relative;display:flex;flex-direction:column;align-items:center;animation:zoomPop .2s;}
+    @keyframes zoomPop{from{opacity:0;transform:scale(.92);}to{opacity:1;transform:scale(1);}}
+    .photo-modal-img{max-width:82vw;max-height:54vh;border-radius:11px;box-shadow:0 2px 13px #2b4d8d17;display:block;}
+    .photo-modal-title{margin-top:6px;font-size:1.01em;font-weight:900;color:#2442a1;}
+    .photo-modal-close{position:absolute;top:4px;right:7px;background:#f9e8ffcc;border:none;font-size:1.31em;color:#427afa;font-weight:900;border-radius:11px;padding:4px 10px 2.5px 10px;cursor:pointer;}
+    .photo-modal-arrow{position:absolute;top:50%;transform:translateY(-50%);font-size:2em;color:#c2c2df;background:none;border:none;cursor:pointer;}
+    .photo-modal-arrow.left{left:0;}
+    .photo-modal-arrow.right{right:0;}
+    .photo-modal-like{position:absolute;top:9px;right:37px;}
+    .fave-btn-corner{position:fixed;bottom:22px;right:14px;z-index:88;background:#fcf2fa;color:#e31e57;padding:8px 13px 7px 13px;border-radius:12px;font-weight:900;font-size:.97em;box-shadow:0 2px 7px #eebc9722;cursor:pointer;border:none;}
+    .fave-modal-bg{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(42,49,78,0.29);z-index:1121;display:none;align-items:center;justify-content:center;}
+    .fave-modal-bg.active{display:flex;}
+    .fave-modal-inner{background:#fff8ef;max-width:98vw;max-height:92vh;overflow-y:auto;border-radius:14px;padding:17px 8px 12px 8px;box-shadow:0 7px 43px #e3aadf23;position:relative;}
+    .fave-modal-inner h2{font-size:1em;color:#7e1a3c;margin-bottom:9px;}
+    .fave-modal-close{position:absolute;top:6px;right:13px;background:#e8eaffb6;border:none;font-size:1.09em;color:#cf5c8e;font-weight:900;border-radius:9px;padding:2px 9px 3px 9px;cursor:pointer;}
+    .fave-photos{display:grid;grid-template-columns:repeat(auto-fit,minmax(74px,1fr));gap:8px 6px;}
+    .fave-card{background:#fffbf9;border-radius:7px;box-shadow:0 2px 8px #ffebf134;padding:4px;display:flex;flex-direction:column;align-items:center;position:relative;}
+    .fave-card img{width:100%;max-width:57px;height:47px;object-fit:cover;border-radius:4px;}
+    .fave-rm-btn{position:absolute;top:4px;right:6px;background:none;border:none;color:#cf5c8e;font-size:1.09em;font-weight:900;cursor:pointer;}
+    .wa-share-bar{margin:12px 0 2px 0;text-align:center;}
+    .wa-btn{background:#25d366;color:#fff;border:none;padding:7px 17px 7px 18px;font-weight:900;font-size:.97em;border-radius:22px;cursor:pointer;margin-top:6px;}
+    .snackbar{visibility:hidden;min-width:120px;background:#317afd;color:#fff;text-align:center;border-radius:10px;padding:9px 13px 9px 13px;position:fixed;z-index:1300;left:50%;transform:translateX(-50%);bottom:35px;font-weight:900;font-size:.93em;opacity:0;transition:opacity .2s;}
+    .snackbar.show{visibility:visible;opacity:1;}
+    @media (max-width:500px){.cat-grid{grid-template-columns:repeat(auto-fit,minmax(80px,1fr));gap:4px;}}
+  </style>
+</head>
+<body>
+  <!-- Language Small Btn Bar -->
+  <div class="lang-btn-bar">
+    <button id="bLang" class="lang-sbtn active" onclick="setLang('bn')">BN</button>
+    <button id="eLang" class="lang-sbtn" onclick="setLang('en')">EN</button>
+  </div>
+  <div class="container">
+    <h1 id="mainTitle">ক্যাটালগ</h1>
+    <div class="cat-menu" id="festMenu"></div>
+    <div id="catSections"></div>
+  </div>
+  <button class="fave-btn-corner" onclick="showFaves()">পছন্দ ❤</button>
+  <!-- ছবির ফুলভিউ modal/gallery -->
+  <div class="photo-modal-bg" id="photoModal">
+    <div class="photo-modal-inner" id="photoModalInner">
+      <button class="photo-modal-arrow left" onclick="slidePhoto(-1)">&lt;</button>
+      <img class="photo-modal-img" id="pmImg" src="" alt="">
+      <div class="photo-modal-title" id="pmTitle"></div>
+      <button class="like-btn photo-modal-like" id="pmLike" onclick="toggleLikeInModal(event)"><span class="like-ico" id="pmLikeIco">♡</span></button>
+      <button class="photo-modal-close" onclick="closePhotoModal()">&times;</button>
+      <button class="photo-modal-arrow right" onclick="slidePhoto(1)">&gt;</button>
+    </div>
+  </div>
+  <!-- Wishlist Modal -->
+  <div class="fave-modal-bg" id="faveModal">
+    <div class="fave-modal-inner">
+      <button class="fave-modal-close" onclick="closeFaves()">&times;</button>
+      <h2 id="faveTitle">আপনার পছন্দের ছবি</h2>
+      <div class="fave-photos" id="faveGrid"></div>
+      <div class="wa-share-bar"><button class="wa-btn" onclick="confirmShareFaves()" id="favWhatsapp">WhatsApp এ পাঠান</button></div>
+    </div>
+  </div>
+  <div id="snackbar" class="snackbar"></div>
+  <script>
+    // ==== Primary Data: এখানে full 20 images DEMO per section ====
+    function makeDemoImgs(name, s=20){return Array.from({length:s},(_,i)=>({img:`https://placehold.co/120x80/EEE/999?text=${name}+${i+1}`,title:`${name} ${i+1}`}));}
+    const RAW = {
+      bn: [
+        { id:'durgapuja',name:'দুর্গাপূজা',sections:[
+          {key:'saj',title:'সাজ',video:'#',items: makeDemoImgs('সাজ')},
+          {key:'kapor',title:'কাপড়',video:'#',items: makeDemoImgs('কাপড়')},
+          {key:'mala',title:'মালা',video:'#',items: makeDemoImgs('মালা')},
+          {key:'onno',title:'অন্যান্য',video:'#',items: makeDemoImgs('অন্যান্য')}
+        ]},
+        { id:'kalipuja',name:'কালীপূজা',sections:[
+          {key:'saj',title:'সাজ',video:'#',items: makeDemoImgs('কালী সাজ')},
+          {key:'kapor',title:'কাপড়',video:'#',items: makeDemoImgs('কালী কাপড়')},
+          {key:'mala',title:'মালা',video:'#',items: makeDemoImgs('কালী মালা')},
+          {key:'onno',title:'অন্যান্য',video:'#',items: makeDemoImgs('কালী অন্যান্য')}
+        ]},
+        { id:'janmashtami',name:'জন্মাষ্টমী',sections:[
+          {key:'boson',title:'বসন',video:'#',items: makeDemoImgs('বসন')},
+          {key:'mukut',title:'মুকুট',video:'#',items: makeDemoImgs('মুকুট')},
+          {key:'onno',title:'অন্যান্য',video:'#',items: makeDemoImgs('অন্যান্য')}
+        ]},
+        { id:'laxmipuja',name:'লক্ষীপূজা',sections:[
+          {key:'saj',title:'সাজ',video:'#',items: makeDemoImgs('লক্ষ্মী সাজ')}
+        ]},
+        { id:'saraswati',name:'সরস্বতী',sections:[
+          {key:'saj',title:'সাজ',video:'#',items: makeDemoImgs('সরস্বতী সাজ')}
+        ]}
+      ],
+      en: [
+        { id:'durgapuja',name:'Durga Puja',sections:[
+          {key:'saj',title:'Decoration',video:'#',items: makeDemoImgs('Decor')},
+          {key:'kapor',title:'Cloth',video:'#',items: makeDemoImgs('Cloth')},
+          {key:'mala',title:'Garland',video:'#',items: makeDemoImgs('Garland')},
+          {key:'onno',title:'Others',video:'#',items: makeDemoImgs('Others')}
+        ]},
+        { id:'kalipuja',name:'Kali Puja',sections:[
+          {key:'saj',title:'Decoration',video:'#',items: makeDemoImgs('Kali Decor')},
+          {key:'kapor',title:'Cloth',video:'#',items: makeDemoImgs('Kali Cloth')},
+          {key:'mala',title:'Garland',video:'#',items: makeDemoImgs('Kali Garland')},
+          {key:'onno',title:'Others',video:'#',items: makeDemoImgs('Kali Others')}
+        ]},
+        { id:'janmashtami',name:'Janmashtami',sections:[
+          {key:'boson',title:'Dress',video:'#',items: makeDemoImgs('Dress')},
+          {key:'mukut',title:'Crown',video:'#',items: makeDemoImgs('Crown')},
+          {key:'onno',title:'Others',video:'#',items: makeDemoImgs('Others')}
+        ]},
+        { id:'laxmipuja',name:'Laxmi Puja',sections:[
+          {key:'saj',title:'Decoration',video:'#',items: makeDemoImgs('Laxmi Decor')}
+        ]},
+        { id:'saraswati',name:'Saraswati',sections:[
+          {key:'saj',title:'Decoration',video:'#',items: makeDemoImgs('Saraswati Decor')}
+        ]}
+      ]
+    };
+    const WLISTLABEL = {bn: "পছন্দ ❤️", en: "Wishlist ❤️"};
+    const WISHH = {bn:"আপনার পছন্দের ছবি", en:"Your Wishlist"};
+    const VIDLAB = {bn:"ভিডিও", en:"Video"};
+    const LIKELAB = {bn:"পছন্দ করেছেন", en:"Liked!"};
+    const NOMORE = {bn:"আর কিছু নেই", en:"No more"};
+    const SHAREL = {bn:"WhatsApp এ পাঠান",en:"Share on WhatsApp"};
+    let lang='bn', festIdx=0, sectIdx=0, pageObj={}, liked=[], viewIdx=0, viewSect=0;
+    let IMAGES_PER_PAGE = 5;
+    function setLang(l){
+      lang=l;document.getElementById('bLang').classList.toggle('active',l==='bn');document.getElementById('eLang').classList.toggle('active',l==='en');
+      document.getElementById('favBtn').textContent=WLISTLABEL[lang];
+      document.getElementById('faveTitle').textContent=WISHH[lang];
+      document.getElementById('favWhatsapp').textContent=SHAREL[lang];
+      festIdx=0;sectIdx=0;renderAll();
+    }
+    function renderAll(){
+      const data=RAW[lang];
+      let festMenu=document.getElementById('festMenu');
+      festMenu.innerHTML='';
+      data.forEach((f,i)=>{
+        let btn=document.createElement('button');
+        btn.className='cat-menu-btn'+(i==festIdx?' active':'');
+        btn.textContent=f.name;
+        btn.onclick=()=>{festIdx=i;sectIdx=0;renderAll();}
+        festMenu.appendChild(btn);
+      });
+      let sect=data[festIdx].sections||[];
+      let sectionHtml='';
+      sect.forEach((s,j)=>{
+        if(!(festIdx+'_'+s.key in pageObj)) pageObj[festIdx+'_'+s.key]=0;
+        let start=pageObj[festIdx+'_'+s.key]*IMAGES_PER_PAGE, items=s.items.slice(start,start+IMAGES_PER_PAGE);
+        sectionHtml += `<div class="cat-section">
+          <div class="cat-section-title">${s.title}</div>
+          <div class="cat-grid" id="grid-${j}"></div>
+          <div class="cat-paginate-bar">
+            <button class="page-btn" onclick="movePage('${festIdx}','${s.key}',-1)">←</button>
+            <button class="page-btn" onclick="movePage('${festIdx}','${s.key}',1)">→</button>
+          </div>
+          <button class="cat-video-btn" onclick="window.open('${s.video}','_blank')">🎥 ${VIDLAB[lang]}</button>
+        </div>`;
+      });
+      document.getElementById('catSections').innerHTML=sectionHtml;
+      sect.forEach((s,j)=>{
+        let start=pageObj[festIdx+'_'+s.key]*IMAGES_PER_PAGE, items=s.items.slice(start,start+IMAGES_PER_PAGE), grid=document.getElementById('grid-'+j);
+        grid.innerHTML='';
+        items.forEach((it,i)=>{
+          let idx=start+i;
+          let k=festIdx+'_'+s.key+'_'+idx;
+          let cd=document.createElement('div');
+          cd.className='cat-card';cd.tabIndex=0;
+          cd.innerHTML=`<img src="${it.img}" loading="lazy" alt="${it.title}" onclick="openPhotoModal(${j},${idx})">
+              <div class="card-title">${it.title}</div>
+              <button class="like-btn${liked.includes(k)?' hearted':''}" onclick="likeImg(event,'${festIdx}','${s.key}','${idx}')"><span class="like-ico">${liked.includes(k)?'❤':'♡'}</span></button>`;
+          grid.appendChild(cd);
+        });
+        let sectDiv=grid.closest('.cat-section'), pag=sectDiv.querySelectorAll('.page-btn');
+        pag[0].disabled=(pageObj[festIdx+'_'+s.key]==0);
+        pag[1].disabled=((start+IMAGES_PER_PAGE)>=s.items.length);
+        let sx=0;
+        grid.addEventListener('touchstart',e=>{sx=e.touches.clientX;});
+        grid.addEventListener('touchend',e=>{
+          let dx=e.changedTouches.clientX-sx;
+          if(Math.abs(dx)>24) movePage(festIdx,s.key,dx<0?1:-1);
+        });
+      });
+    }
+    function movePage(fIdx,sKey,dir){
+      pageObj[fIdx+'_'+sKey]+=dir;
+      if(pageObj[fIdx+'_'+sKey]<0)pageObj[fIdx+'_'+sKey]=0;
+      renderAll();
+    }
+    function openPhotoModal(sIdx,idx){viewIdx=idx;viewSect=sIdx;showModal();}
+    function showModal(){
+      let sect=RAW[lang][festIdx].sections[viewSect];
+      let it=sect.items[viewIdx];let k=festIdx+'_'+sect.key+'_'+viewIdx;
+      document.getElementById('pmImg').src=it.img;document.getElementById('pmTitle').textContent=it.title;
+      document.getElementById('pmLike').className='like-btn photo-modal-like'+(liked.includes(k)?' hearted':'');
+      document.getElementById('pmLikeIco').textContent=liked.includes(k)?"❤":"♡";
+      document.getElementById('photoModal').classList.add('active');
+      window._curModalLength=sect.items.length;
+    }
+    function closePhotoModal(){document.getElementById('photoModal').classList.remove('active');}
+    function slidePhoto(dir){
+      viewIdx+=dir;
+      if(viewIdx<0)viewIdx=0;
+      if(viewIdx>=window._curModalLength)viewIdx=window._curModalLength-1;
+      showModal();
+    }
+    function likeImg(e,fidx,skey,idx){
+      e.stopPropagation();
+      let k=fidx+'_'+skey+'_'+idx;
+      let i=liked.indexOf(k);
+      if(i==-1){liked.push(k);snack(LIKELAB[lang]);}
+      else {liked.splice(i,1);}
+      renderAll();
+    }
+    function toggleLikeInModal(e){
+      let sect=RAW[lang][festIdx].sections[viewSect];
+      let k=festIdx+'_'+sect.key+'_'+viewIdx;let i=liked.indexOf(k);
+      if(i==-1){liked.push(k);snack(LIKELAB[lang]);}
+      else {liked.splice(i,1);}
+      showModal();e.stopPropagation();
+    }
+    function showFaves(){document.getElementById('faveModal').classList.add('active');renderFaves();}
+    function closeFaves(){document.getElementById('faveModal').classList.remove('active');}
+    function renderFaves(){
+      let grid=document.getElementById('faveGrid');grid.innerHTML='';
+      if(liked.length==0){
+        grid.innerHTML='<div class="no-more">'+NOMORE[lang]+'</div>';return;
+      }
+      for(let k of liked){
+        let [festIdx,skey,idx]=k.split('_');
+        let sect=RAW[lang][festIdx].sections.find(s=>s.key===skey);let it=sect.items[+idx];
+        let cd=document.createElement('div');
+        cd.className='fave-card';
+        cd.innerHTML = `<img src="${it.img}" alt="${it.title}"><div style='font-size:.9em;font-weight:700;margin-top:2px;'>${it.title}</div>
+          <button class="fave-rm-btn" onclick="removeFave('${k}')">&times;</button>`;
+        grid.appendChild(cd);
+      }
+    }
+    function removeFave(k){
+      let i=liked.indexOf(k);
+      if(i>-1) liked.splice(i,1);
+      renderFaves();renderAll();
+    }
+    function confirmShareFaves(){
+      if(liked.length==0){alert(NOMORE[lang]);return;}
+      let txt = (lang=='bn'?"আমি ছবি পছন্দ করেছি:%0A":"I liked these images:%0A");
+      for(let k of liked){
+        let [festIdx,skey,idx]=k.split('_');
+        let sect=RAW[lang][festIdx].sections.find(s=>s.key===skey);
+        let it = sect.items[+idx];
+        txt += "- "+it.title+" ("+location.origin+"/"+it.img+")%0A";
+      }
+      if(confirm((lang=='bn'?"আপনি ":"")+" "+liked.length+" "+(lang=='bn'?"টি ছবি WhatsApp এ পাঠাতে চান?":"images to WhatsApp?")))
+        window.open("https://wa.me/9547486999?text="+txt,"_blank");
+    }
+    function snack(msg){let s=document.getElementById('snackbar');s.textContent=msg;s.className="snackbar show";setTimeout(()=>{s.className="snackbar";},1100);}
+    let pmsx=0;document.getElementById('photoModal').addEventListener('touchstart',e=>{pmsx=e.touches[0].clientX;});
+    document.getElementById('photoModal').addEventListener('touchend',e=>{
+      let dx=e.changedTouches.clientX-pmsx;
+      if(Math.abs(dx)>20)slidePhoto(dx<0?1:-1);
+    });
+    document.addEventListener('DOMContentLoaded',()=>{renderAll();});
+  </script>
+</body>
+</html>
