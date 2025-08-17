@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <title>Shop Catalogue</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    html,body{height:100%;margin:0;padding:0;}
+    body {background:#f5f7fc;min-height:100vh;font-family:'Noto Sans Bengali','Segoe UI',Arial,sans-serif;}
+    .container{max-width:510px;margin:0 auto;padding:0 0 34px 0;}
+    h1{text-align:center;font-size:1.38em;color:#10276b;margin:27px 0 20px 0;letter-spacing: .4px;}
+    .cat-menu{display:flex;gap:15px;justify-content:center;margin-bottom:20px;flex-wrap:wrap;}
+    .cat-menu-btn{background:#e7eaff;color:#1c1e97;border:none;font-weight:700;font-size:1em;padding:9px 20px 9px 20px;border-radius:14px;cursor:pointer;transition:.21s;}
+    .cat-menu-btn.active{background:#1336c5;color:#fff;box-shadow:0 3px 14px #dbe5ff26;}
+    .section-tabs{display:flex;gap:12px;justify-content:center;margin-bottom:15px;}
+    .section-tab{padding:10px 20px;background:#f5f8ff;border:none;border-radius:12px;font-weight:700;font-size:1em;cursor:pointer;transition:.22s;}
+    .section-tab.active{background:#854cfb;color:#fff;transform:scale(1.09);}
+    .cat-section{background:#fff;border-radius:19px;box-shadow:0 5px 30px #ccd7fa19;padding:23px 10px 21px 10px;min-height:220px;}
+    .cat-section[data-anim]{animation: fadeInTab .44s;}
+    @keyframes fadeInTab{from{opacity:0;transform:scale(.97);}to{opacity:1;transform:scale(1);}}
+    .cat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(99px,1fr));gap:19px;}
+    .cat-card{background:#f7fafe;border-radius:13px;box-shadow:0 2px 13px #edf1fc23;padding:7px 4px 12px 4px;display:flex;flex-direction:column;align-items:center;position:relative;transition:.3s;}
+    .cat-card img{width:100%;max-width:76px;height:60px;object-fit:cover;border-radius:8px;cursor:pointer;box-shadow:0 1px 4px #eaf8fcd5;transition:transform .22s;}
+    .cat-card img.anim-zoom{animation:zoomBigAnim .28s;}
+    @keyframes zoomBigAnim{from{transform:scale(.89);}to{transform:scale(1);}}
+    .card-title{font-weight:600;font-size:.99em;text-align:center;color:#103d94;padding-top:10px;user-select:none;}
+    .like-btn{position:absolute;top:7px;right:12px;background:none;border:none;cursor:pointer;transition:.12s;}
+    .like-btn.hearted{color:#e82762;}
+    .like-ico{font-size:1.14em;}
+    .cat-video-btn{display:block;margin:18px auto 13px auto;background:#ece7ff;border:1.6px solid #a1b2f7;border-radius:13px;padding:10px 18px;font-weight:900;color:#4b64b6;font-size:1.08em;box-shadow:0 1px 7px #e5eafd13;}
+    .cat-paginate-bar{display:flex;justify-content:center;gap:23px;margin:20px 0 15px 0;}
+    .page-btn{padding:7px 25px;border:none;border-radius:8px;background:#2c4dea;color:#fff;font-weight:700;cursor:pointer;font-size:1.13em;}
+    .page-btn:disabled{background:#e2eafb;color:#adb9e7;}
+    .fave-btn-corner{position:fixed;bottom:29px;right:23px;z-index:99;background:#ffeefb;color:#d11e5c;padding:11px 21px 10px 21px;border-radius:18px;font-weight:900;font-size:1.10em;box-shadow:0 3px 24px #edc6d125;cursor:pointer;border:none;}
+    .fave-modal-bg{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(28,34,64,0.26);z-index:1301;display:none;align-items:center;justify-content:center;}
+    .fave-modal-bg.active{display:flex;animation:fadeIn .34s;}
+    @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+    .fave-modal-inner{background:#fff8ef;max-width:98vw;max-height:93vh;overflow-y:auto;border-radius:23px;padding:32px 23px 19px 23px;box-shadow:0 9px 70px #e3aedf2b;position:relative;animation:modalPop .46s;}
+    @keyframes modalPop{from{opacity:.5;transform:scale(.93);filter:blur(2px);}to{opacity:1;transform:scale(1);filter:blur(0);}}
+    .fave-modal-inner h2{font-size:1.19em;color:#95263c;margin-bottom:17px;letter-spacing:.04em;display:flex;align-items:center;gap:8px;}
+    .fave-happy{display:none;font-size:1.27em;}
+    .fave-happy.show{display:inline;}
+    .fave-photos{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:18px 12px;}
+    .fave-card{background:#fefcfa;border-radius:12px;box-shadow:0 2px 12px #f9ddf123;padding:10px 4px 8px 3px;display:flex;flex-direction:column;align-items:center;position:relative;transition:.21s,box-shadow .18s;}
+    .fave-card:hover{box-shadow:0 8px 22px #a3eaf924,0 1px 2px #fff;}
+    .fave-card img{width:78px;height:62px;object-fit:cover;border-radius:9px;transition:transform .19s;}
+    .fave-card:hover img{transform:scale(1.07);}
+    .fave-rm-btn{position:absolute;top:7px;right:10px;background:none;border:none;color:#ce2c6a;font-size:1.19em;font-weight:900;cursor:pointer;transition:.17s;}
+    .fave-rm-btn:active{color:#fff;background:#ff5970;padding:2px 8px;border-radius:7px;animation:rmJiggle .2s;}
+    @keyframes rmJiggle{0%{transform:rotate(-8deg);}33%{transform:rotate(9deg);}66%{transform:rotate(-7deg);}100%{transform:rotate(0);}}
+    .wa-share-bar{margin:22px 0 5px 0;text-align:center;}
+    .wa-btn{background:#25d366;color:#fff;border:none;padding:12px 29px;font-weight:900;font-size:1.11em;border-radius:26px;cursor:pointer;}
+    .fave-modal-close{position:absolute;top:13px;right:27px;background:#e8eaffb6;border:none;font-size:1.19em;color:#cf5c8e;font-weight:900;border-radius:14px;padding:4px 15px 3px 13px;cursor:pointer;}
+    .snackbar{visibility:hidden;min-width:140px;background:#2e55f8;color:#fff;text-align:center;border-radius:13px;padding:15px 19px 13px 19px;position:fixed;z-index:1350;left:50%;transform:translateX(-50%);bottom:43px;font-weight:900;font-size:1.14em;opacity:0;transition:opacity .18s;}
+    .snackbar.show{visibility:visible;opacity:1;animation:snackPop .31s;}
+    @keyframes snackPop{from{transform:translateX(-50%) scale(.7);}to{transform:translateX(-50%) scale(1);}}
+    .photo-modal-bg{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(32,48,82,0.22);z-index:1110;display:none;align-items:center;justify-content:center;}
+    .photo-modal-bg.active{display:flex;}
+    .photo-modal-inner{background:#fff;max-width:99vw;max-height:95vh;border-radius:20px;box-shadow:0 8px 90px #b0b7f130;position:relative;display:flex;flex-direction:column;align-items:center;animation:photoBlurIn .23s;}
+    @keyframes photoBlurIn{from{opacity:0;transform:scale(.87);}to{opacity:1;transform:scale(1);}}
+    .photo-modal-img{max-width:84vw;max-height:65vh;border-radius:14px;box-shadow:0 2px 18px #4d7df117;display:block;transition:transform .23s;}
+    .photo-modal-img.anim-zoom{animation:zoomBigAnim .32s;}
+    .photo-modal-title{margin-top:15px;font-size:1.22em;font-weight:700;color:#2453ff;}
+    .photo-modal-close{position:absolute;top:16px;right:20px;background:#f9e8ffcc;border:none;font-size:1.52em;color:#427afa;font-weight:900;border-radius:16px;padding:7px 18px 2.5px 11px;cursor:pointer;}
+    .photo-modal-arrow{position:absolute;top:50%;transform:translateY(-50%);font-size:2.26em;color:#b3bde5;background:none;border:none;cursor:pointer;}
+    .photo-modal-arrow.left{left:7vw;}
+    .photo-modal-arrow.right{right:7vw;}
+    .photo-modal-like{position:absolute;top:20px;right:61px;}
+    @media (max-width:700px){
+      .container{padding:0 1vw;}
+      .cat-grid{grid-template-columns:repeat(auto-fit,minmax(80px,1fr));gap:11px;}
+      .fave-photos{grid-template-columns:repeat(auto-fit,minmax(77px,1fr));gap:7px 5px;}
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Shop Catalogue</h1>
+  <div class="cat-menu" id="festMenu"></div>
+  <div id="catSections"></div>
+</div>
+<button class="fave-btn-corner" onclick="showFaves()">পছন্দ ❤️</button>
+<!-- Wishlist Modal (Animated) -->
+<div class="fave-modal-bg" id="faveModal">
+  <div class="fave-modal-inner" id="faveModalInner">
+    <button class="fave-modal-close" onclick="closeFaves()">&times;</button>
+    <h2 id="faveTitle">
+      <span>আপনার পছন্দের ছবি</span>
+      <span id="faveHappy" class="fave-happy">🎉</span>
+    </h2>
+    <div class="fave-photos" id="faveGrid"></div>
+    <div class="wa-share-bar"><button class="wa-btn" onclick="confirmShareFaves()">WhatsApp-এ পাঠান</button></div>
+  </div>
+</div>
+<!-- ছবির ফুলভিউ Modal -->
+<div class="photo-modal-bg" id="photoModal">
+  <div class="photo-modal-inner" id="photoModalInner">
+    <button class="photo-modal-arrow left" onclick="slidePhoto(-1)">&lt;</button>
+    <img class="photo-modal-img" id="pmImg" src="" alt="">
+    <div class="photo-modal-title" id="pmTitle"></div>
+    <button class="like-btn photo-modal-like" id="pmLike" onclick="toggleLikeInModal(event)"><span class="like-ico" id="pmLikeIco">♡</span></button>
+    <button class="photo-modal-close" onclick="closePhotoModal()">&times;</button>
+    <button class="photo-modal-arrow right" onclick="slidePhoto(1)">&gt;</button>
+  </div>
+</div>
+<div id="snackbar" class="snackbar"></div>
+<script>
+  // ডেটা স্ট্রাকচার
+  function makeImgs(prefix) {
+    return Array.from({length:20},(_,i)=>({img:`images/${prefix}${i+1}.jpg`,title:`${prefix}${i+1}`}));
+  }
+  const RAW = [
+    { id:'durga', name:'দুর্গাপূজা', sections:[
+      {key:'mala',title:'মালা',video:'',items: makeImgs('durga_mala')},
+      {key:'saj',title:'সাজ',video:'',items: makeImgs('durga_saj')},
+      {key:'onno',title:'অন্যান্য',video:'',items: makeImgs('durga_onno')}
+    ]},
+    { id:'kali', name:'কালীপূজা', sections:[
+      {key:'mala',title:'মালা',video:'',items: makeImgs('kali_mala')},
+      {key:'saj',title:'সাজ',video:'',items: makeImgs('kali_saj')},
+      {key:'onno',title:'অন্যান্য',video:'',items: makeImgs('kali_onno')}
+    ]},
+    { id:'laxmi', name:'লক্ষ্মীপূজা', sections:[
+      {key:'mala',title:'মালা',video:'',items: makeImgs('laxmi_mala')},
+      {key:'saj',title:'সাজ',video:'',items: makeImgs('laxmi_saj')},
+      {key:'onno',title:'অন্যান্য',video:'',items: makeImgs('laxmi_onno')}
+    ]},
+    { id:'sara', name:'সরস্বতী', sections:[
+      {key:'mala',title:'মালা',video:'',items: makeImgs('sara_mala')},
+      {key:'saj',title:'সাজ',video:'',items: makeImgs('sara_saj')},
+      {key:'onno',title:'অন্যান্য',video:'',items: makeImgs('sara_onno')}
+    ]},
+    { id:'janma', name:'জন্মাষ্টমী', sections:[
+      {key:'boson',title:'বসন',video:'https://youtu.be/JXnW23ZFm74?si=v1zI-Ri2QnG9SYc3',items: makeImgs('janma_boson')},
+      {key:'mukut',title:'মুকুট',video:'https://youtu.be/JXnW23ZFm74?si=v1zI-Ri2QnG9SYc3',items: makeImgs('janma_mukut')},
+      {key:'onno',title:'অন্যান্য',video:'https://youtu.be/JXnW23ZFm74?si=v1zI-Ri2QnG9SYc3',items: makeImgs('janma_onno')}
+    ]}
+  ];
+  let festIdx=0,sectIdx=0,pageObj={},liked=[],viewIdx=0,viewSect=0;
+  const IMAGES_PER_PAGE=5;
+  function renderMenu() {
+    const festMenu=document.getElementById('festMenu');
+    festMenu.innerHTML='';
+    RAW.forEach((f,i)=>{
+      let btn=document.createElement('button');
+      btn.className='cat-menu-btn'+(i==festIdx?' active':'');
+      btn.textContent=f.name;
+      btn.onclick=()=>{festIdx=i;sectIdx=0;renderSections(true);renderMenu();}
+      festMenu.appendChild(btn);
+    });
+  }
+  function renderSections(anim) {
+    const fest=RAW[festIdx];
+    const catSections=document.getElementById('catSections');
+    catSections.innerHTML='';
+    const tabs=document.createElement('div');
+    tabs.className='section-tabs';
+    fest.sections.forEach((s,j)=>{
+      let tab=document.createElement('button');
+      tab.className='section-tab'+(sectIdx==j?' active':'');
+      tab.textContent=s.title;
+      tab.onclick=()=>{sectIdx=j;renderSections(true);}
+      tabs.appendChild(tab);
+    });
+    catSections.appendChild(tabs);
+    let s=fest.sections[sectIdx];
+    let pKey=festIdx+'_'+sectIdx;
+    if(!(pKey in pageObj)) pageObj[pKey]=0;
+    let start=pageObj[pKey]*IMAGES_PER_PAGE;
+    let items=s.items.slice(start,start+IMAGES_PER_PAGE);
+    let section=document.createElement('div');
+    section.className='cat-section';
+    if(anim) section.setAttribute('data-anim','1');
+    let grid=document.createElement('div');
+    grid.className='cat-grid';
+    items.forEach((it,i)=>{
+      let idx=start+i, k=festIdx+'_'+sectIdx+'_'+idx;
+      let cd=document.createElement('div');
+      cd.className='cat-card';
+      cd.innerHTML=`<img src="${it.img}" loading="lazy" alt="${it.title}" onclick="openPhotoModal(${sectIdx},${idx},true)">
+          <div class="card-title">${it.title}</div>
+          <button class="like-btn${liked.includes(k)?' hearted':''}" onclick="likeImg(event,${festIdx},${sectIdx},${idx})"><span class="like-ico">${liked.includes(k)?'❤':'♡'}</span></button>`;
+      grid.appendChild(cd);
+    });
+    section.appendChild(grid);
+    let pag=document.createElement('div');
+    pag.className='cat-paginate-bar';
+    let prev=document.createElement('button');
+    prev.className='page-btn';prev.innerText='←';prev.disabled=(pageObj[pKey]==0);
+    prev.onclick=()=>{pageObj[pKey]--;renderSections(true);}
+    let next=document.createElement('button');
+    next.className='page-btn';next.innerText='→';next.disabled=((start+IMAGES_PER_PAGE)>=s.items.length);
+    next.onclick=()=>{pageObj[pKey]++;renderSections(true);}
+    pag.appendChild(prev);pag.appendChild(next);
+    section.appendChild(pag);
+    let vBtn=document.createElement('button');
+    vBtn.className='cat-video-btn';
+    vBtn.innerText='🎥 ভিডিও';
+    vBtn.onclick=()=>{if(s.video) window.open(s.video,'_blank'); else alert('ভিডিও লিংক নেই');}
+    section.appendChild(vBtn);
+    catSections.appendChild(section);
+  }
+  function likeImg(e,fi,si,idx){
+    e.stopPropagation();
+    let k=fi+'_'+si+'_'+idx, i=liked.indexOf(k);
+    if(i==-1){
+      liked.push(k);
+      snack("পছন্দ করেছেন!",true);
+      let btn=e.currentTarget;btn.classList.add('hearted');
+    }
+    else {liked.splice(i,1);}
+    renderSections();
+  }
+  function showFaves(){
+    let modal=document.getElementById('faveModal');
+    modal.classList.add('active');
+    document.getElementById('faveModalInner').style.animation='modalPop .44s';
+    renderFaves();
+  }
+  function closeFaves(){
+    let modal=document.getElementById('faveModal');
+    document.getElementById('faveModalInner').style.animation='modalPop .44s reverse';
+    setTimeout(()=>{modal.classList.remove('active');},250);
+  }
+  function renderFaves(){
+    let grid=document.getElementById('faveGrid');
+    let happy=document.getElementById('faveHappy');
+    grid.innerHTML='';
+    if(liked.length==0){
+      happy && (happy.classList.remove('show'));
+      grid.innerHTML='<div style="padding:23px 0;text-align:center;color:#888;font-weight:700;">কিছুই পছন্দ করেননি!</div>';return;
+    }
+    happy && (happy.classList.add('show'));
+    for(let k of liked){
+      let [fi,si,idx]=k.split('_');
+      let sect=RAW[fi].sections[si],it=sect.items[+idx];
+      let cd=document.createElement('div');
+      cd.className='fave-card';
+      cd.innerHTML = `<img src="${it.img}" alt="${it.title}"><div style='font-size:.99em;font-weight:700;margin-top:6px;'>${it.title}</div>
+        <button class="fave-rm-btn" onclick="removeFave('${k}')">&times;</button>`;
+      grid.appendChild(cd);
+    }
+  }
+  function removeFave(k){
+    let i=liked.indexOf(k);
+    if(i>-1) liked.splice(i,1);
+    renderFaves();renderSections();
+  }
+  function confirmShareFaves(){
+    if(liked.length==0){alert("কিছুই পছন্দ করেননি!");return;}
+    let txt = "আমি ছবি পছন্দ করেছি:%0A";
+    for(let k of liked){
+      let [fi,si,idx]=k.split('_');
+      let sect=RAW[fi].sections[si];let it = sect.items[+idx];
+      txt += "- "+it.title+" ("+location.origin+"/"+it.img+")%0A";
+    }
+    if(confirm(liked.length+" টি ছবি WhatsApp-এ পাঠাতে চান?"))
+      window.open("https://wa.me/?text="+txt,"_blank");
+  }
+  // ছবির ফুলভিউ modal (zoom+slide anim)
+  function openPhotoModal(sIdx,idx,anim){
+    viewIdx=idx;viewSect=sIdx;showModal(anim);
+  }
+  function showModal(anim){
+    let sect=RAW[festIdx].sections[viewSect];
+    let it=sect.items[viewIdx];let k=festIdx+'_'+viewSect+'_'+viewIdx;
+    let img=document.getElementById('pmImg');
+    img.src=it.img;document.getElementById('pmTitle').textContent=it.title;
+    document.getElementById('pmLike').className='like-btn photo-modal-like'+(liked.includes(k)?' hearted':'');
+    document.getElementById('pmLikeIco').textContent=liked.includes(k)?"❤":"♡";
+    if(anim){img.classList.add('anim-zoom');setTimeout(()=>img.classList.remove('anim-zoom'),320);}
+    document.getElementById('photoModal').classList.add('active');
+    window._curModalLength=sect.items.length;
+  }
+  function closePhotoModal(){document.getElementById('photoModal').classList.remove('active');}
+  function slidePhoto(dir){
+    viewIdx+=dir;
+    let sect=RAW[festIdx].sections[viewSect];
+    if(viewIdx<0)viewIdx=0;
+    if(viewIdx>=sect.items.length)viewIdx=sect.items.length-1;
+    showModal(true);
+  }
+  let snackTimeout=0;
+  function snack(msg,withAnim){
+    let s=document.getElementById('snackbar');
+    s.textContent=msg; s.className="snackbar show";
+    if(withAnim){s.style.animation="snackPop .32s";} else{s.style.animation="";}
+    clearTimeout(snackTimeout);
+    snackTimeout=setTimeout(()=>{s.className="snackbar";},1400);
+  }
+  renderMenu(); renderSections(true);
+</script>
+</body>
+</html>
