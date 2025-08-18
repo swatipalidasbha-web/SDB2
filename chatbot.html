@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<title>স্বস্তীপালী দশকর্মা ভান্ডার</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+body {margin:0; font-family:'Segoe UI',kalpurush,'Noto Sans Bengali',sans-serif; background:#f6f8fb;}
+#chatbot-root{max-width:420px;margin:0 auto;box-shadow:0 2px 18px #e0eafe19;}
+.cb-header{
+  background:linear-gradient(90deg,#475ff8 60%,#3de4d2 95%);
+  color:#fff;display:flex;align-items:center;gap:11px;
+  padding:18px 0 13px 0;border-radius:0 0 19px 19px;position:relative;
+}
+.cblogo{font-size:2.1em;margin:0 7px 0 15px;}
+.cb-title{font-size:1.08em;font-weight:900;letter-spacing:.02em;}
+.cb-langbtn{
+  position:absolute;right:13px;top:19px;font-size:1.01em;padding:6px 14px;
+  background:#f8fcff;color:#2578ee;border:none;border-radius:80px;font-weight:bold;cursor:pointer;
+  border:1.1px solid #def8fb;box-shadow:0 1.5px 6px #36d8ee19;transition:.15s;
+}
+.cb-langbtn:active{background:#d0eafd;}
+.cb-body{background:#fff;min-height:70vh;padding:0 0 65px 0;border-radius:0 0 20px 20px;}
+.cb-messages{padding:13px 10px 7px 10px;overflow-y:auto;max-height:59vh;}
+.msg-bubble{display:flex;align-items:flex-end;gap:8px;margin-bottom:10px;}
+.msg-bot{justify-content:flex-start;}
+.msg-user{justify-content:flex-end;}
+.bubble-inner{max-width:75vw;background:#f4f5fe;padding:10px 16px;border-radius:17px;
+  font-size:1.03em;line-height:1.5;color:#25357d;box-shadow:0 1.5px 6px #8db8fc1d;}
+.bubble-bot{background:#f2fdff;color:#035191;}
+.bubble-user{background:#eaeafe;color:#3b266d;}
+.bubble-anim{animation:botin .41s cubic-bezier(.31,.63,.81,1.45);}
+@keyframes botin{0%{opacity:0;transform:translateY(25px);}100%{opacity:1;transform:none;}}
+.cb-suggestions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0 9px;}
+.cb-sugbtn{background:#f9faff;border:1px solid #79d4ef;color:#317cba;font-size:.99em;padding:7px 13px 8px 13px;border-radius:16px;cursor:pointer;transition:.13s;}
+.cb-sugbtn:active{background:#e0f4ff;}
+.cb-typing{display:flex;align-items:center;gap:6px;margin-top:2px;margin-bottom:12px;font-style:italic;}
+.dotty{width:7px;height:7px;border-radius:50%;background:#8cd5ef;animation:d1 .7s infinite alternate;}
+.dotty:nth-child(2){animation-delay:.13s}
+.dotty:nth-child(3){animation-delay:.28s}
+@keyframes d1{to{background:#4cb7e2}}
+.cb-footer{position:fixed;left:0;right:0;bottom:0;max-width:420px;margin:auto;background:#fcfcff;padding:13px 5px 17px 8px;display:flex;gap:7px;border-radius:0 0 15px 15px;}
+#userInput{flex:1;font-size:1.09em;padding:12px 13px;border-radius:15px;border:1.2px solid #eae6f6;}
+.cb-sendbtn{padding:13px 23px 12px 23px;border:none;background:linear-gradient(95deg,#49b9f8,#3de4d2 90%);color:#fff;border-radius:14px;font-weight:700;font-size:1.19em;cursor:pointer;}
+.cb-sendbtn:active{background:#1cc6af;}
+@media (max-width:475px){
+  #chatbot-root{max-width:100vw;}
+  .cb-sendbtn{padding:13px 12px}
+}
+.status-msg{font-size:.98em;margin-top:9px;color:#1cb1e6;display:block;}
+.cb-apikey{border:none;padding:8px 15px;margin:0 0 12px 0;border-radius:12px;background:#eaf3fe;color:#1b77d1;font-size:.99em;margin-left:14px;}
+</style>
+</head>
+<body>
+<div id="chatbot-root">
+  <div class="cb-header">
+      <span class="cblogo">🏪</span>
+      <span class="cb-title">স্বস্তীপালী দশকর্মা ভান্ডার</span>
+      <button class="cb-langbtn" onclick="toggleLang()"><span id="langBtnLab">EN</span></button>
+  </div>
+  <div class="cb-body">
+    <div id="cbMessages" class="cb-messages"></div>
+    <div id="cbSuggestions" class="cb-suggestions"></div>
+    <div id="cbTyping" class="cb-typing" style="display:none;"><span class="dotty"></span><span class="dotty"></span><span class="dotty"></span></div>
+    <div class="status-msg" style="display:none" id="cbStatus"></div>
+  </div>
+  <div class="cb-footer">
+    <input type="text" id="userInput" placeholder="আপনার প্রশ্ন লিখুন..." autocomplete="off" onkeydown="if(event.key==='Enter'){sendMsg();}">
+    <button class="cb-sendbtn" onclick="sendMsg()">➤</button>
+  </div>
+</div>
+<div id="apiKeyWrapper" style="display:none;margin-top:26px;text-align:center;">
+  <input id="aiApiKey" class="cb-apikey" placeholder="OpenAI API Key দিন (ঐচ্ছিক)">
+  <div style="font-size:.92em;color:#888;">একটি কী ফ্রি পাবেন:<br><a href="https://platform.openai.com" target="_blank">OpenAI platform</a></div>
+</div>
+<div style="text-align:center;margin:10px 0 0 0;">
+  
+</div>
+<script>
+let lang = 'bn';
+const msgBox = document.getElementById('cbMessages');
+const suggestions = {
+  bn: [
+    "দোকান কোথায়?", "কয়টায় খোলে?", "কি কি পাওয়া যায়?", "অনলাইন অর্ডার?", "ডেলিভারি?", "লোকেশন", "UPI?"
+  ],
+  en: [
+    "Where is the shop?", "Opening time?", "What do you sell?", "Online order?", "Delivery?", "Location?", "UPI?", "Sets/combo available?"
+  ]
+};
+
+const FAQ = [
+  {
+    triggers: ["দোকান কোথায়", "ঠিকানা", "location", "address", "কোথায়,"],
+    bn: "হাসনাবাদ পুরাতন বাজার (সুভাষ ময়দান এর পাশে), উত্তর ২৪ পরগনা",
+    en: "Hasnabad Old Bazaar (beside Subhash Moydan), North 24 Parganas"
+  },
+  {
+    triggers: ["দোকান", "কয়টায় খোলে", "কটা থেকে কটা", "কখন খোলে", "opening time", "open", "closing"],
+    bn: "দোকান প্রতিদিন সকাল আটটা থেকে রাত দশটা পর্যন্ত খোলা থাকে।",
+    en: "We are open every day from 8am to 10pm."
+  },
+  {
+    triggers: ["প্রতিদিন খোলা", "holiday", "আজ বন্ধ"],
+    bn: "হ্যাঁ, দোকান প্রতিদিন খোলা থাকে।",
+    en: "Yes, the shop is open every day."
+  },
+  {
+    triggers: ["দোকানের নাম", "store name", "shop name", "name"],
+    bn: "স্বস্তীপালী দশকর্মা ভান্ডার",
+    en: "Swastipali Dashkarma Bhandar"
+  },
+  {
+    triggers: ["কি কি পাওয়া", "পাওয়া যায়", "কী কী", "products", "What do you sell", "দ্রব্য", "কী কি জিনিস"],
+    bn: "স্বস্তীপালী দশকর্মা ভান্ডারে বিভিন্ন পূজার দশকর্মা দ্রব্যাদি, প্রতিমা সাজসজ্জা, গোপালের সাজসজ্জা, বিবাহ, অন্নপ্রাশন, শ্রাদ্ধের দ্রব্যাদি সুলভ মূল্যে পাইকারি ও খুচরা পেয়ে যাবেন। পূজা হোক অথবা বিবাহ সব ধরনের প্রয়োজনীয় দ্রব্যাদি পেয়ে যাবেন।",
+    en: "We offer various puja dashkarma items, idol decorations, Gopal accessories, marriage/annaprashan/sradha essentials at wholesale & retail. For every fest or wedding, all necessary items are available."
+  },
+  {
+    triggers: ["কিভাবে পৌঁছাব", "how to reach", "যাব", "গাড়িতে", "গাড়িতে কিভাবে", "গাড়ি", "train"],
+    bn: "ট্রেনে: হাসনাবাদ স্টেশন থেকে টোটো ধরে হাসনাবাদ পুরাতন বাজার (সুভাষ ময়দান), অথবা টাকি রোড স্টেশন থেকেও আসা যায়। গাড়িতে: থুবার মোড়–চৌরঙ্গী–হাসনাবাদ দেবীর মোড়–হাসনাবাদ পুরাতন বাজার–সুভাষ ময়দানের নিকট। (কাছের স্টেশন – হাসনাবাদ)",
+    en: "By train: From Hasnabad station, take a Toto to Hasnabad Old Bazaar (Subhash Moydan); also reachable from Taki Road station. By car: Thuba More–Chourangi–Hasnabad Debir More–Hasnabad Old Bazaar–near Subhash Moydan."
+  },
+  {
+    triggers: ["ধূপ", "ধুনো", "প্রদীপ", "incense", "lamp"],
+    bn: "হ্যাঁ, সুগন্ধি ধূপ, ধুনো, প্রদীপ পাওয়া যায়।",
+    en: "Yes, incense sticks, dhuno and lamps are available."
+  },
+  {
+    triggers: ["অনলাইন অর্ডার", "order online", "online order", "order", "ডেলিভারি", "delivery"],
+    bn: "দুঃখিত, আপাতত আমরা ডেলিভারি প্রদান করি না।",
+    en: "Sorry, currently we do not provide delivery."
+  },
+  {
+    triggers: ["যোগাযোগ", "contact", "call", "হোয়াটসঅ্যাপ", "whatsapp"],
+    bn: "ওয়েবসাইটে দেওয়া কল বা হোয়াটসঅ্যাপ বাটন থেকে আমাদের সাথে যোগাযোগ করুন।",
+    en: "Please contact us via the Call or WhatsApp button on our website."
+  },
+  {
+    triggers: ["লোকেশন", "location", "map", "গুগল ম্যাপ", "google map"],
+    bn: "ওয়েবসাইটে লোকেশন বাটনে ক্লিক করলে আমাদের অবস্থান জানতে পারবেন। গুগল ম্যাপেও লোকেশন দেওয়া আছে।",
+    en: "Click the location button on our website to find us. We are also on Google Maps."
+  },
+  {
+    triggers: ["ওয়েবসাইট", "website", "site", "catalog", "ক্যাটালগ"],
+    bn: "হ্যাঁ, আমাদের ওয়েবসাইট আছে—এখানে বিশেষ কালেকশন দেখতে পারবেন। কিনতে হলে দয়া করে দোকানে আসুন।",
+    en: "Yes, we have a website for viewing our special collection, but for purchase please visit our shop."
+  },
+  {
+    triggers: ["অনলাইন পেমেন্ট", "upi", "payment", "paytm", "online payment", "digital payment", "qr"],
+    bn: "হ্যাঁ, অনলাইনে আমাদের UPI আছে। হোয়াটসঅ্যাপে মেসেজ করলে পেমেন্ট কিউআর পাঠিয়ে দেব।",
+    en: "Yes, UPI and online payment available. Message us on WhatsApp for the payment QR code."
+  },
+  {
+    triggers: ["লক্ষ্মী পুজো", "puja items", "পুজোর সামগ্রী", "puja set", "mala", "বাতি", "lamp", "set"],
+    bn: "হ্যাঁ, এখানে সব ধরনের দশকর্মা দ্রব্যাদি তথা প্রদীপ, বাতি, মালা পেয়ে যাবেন।",
+    en: "Yes, all types of dashkarma items including lamp, garland, etc. are available here."
+  },
+  {
+    triggers: ["অস্ত্র", "ঠাকুরের অস্ত্র", "idol weapon", "weapon", "arms"],
+    bn: "হ্যাঁ, ঠাকুরের অস্ত্র সেট পেয়ে যাবেন।",
+    en: "Yes, idol weapon (arms) sets are available."
+  },
+  {
+    triggers: ["মাটি", "কলসি", "হাড়ি", "pot", "কুমোর", "হাড়ি কলসি"],
+    bn: "হ্যাঁ, মাটির কলসি, হাড়ি প্রভৃতি পেয়ে যাবেন।",
+    en: "Yes, clay pots, kalshi, haris etc. are available."
+  },
+  {
+    triggers: ["ঠাকুরের কাপড়", "idol dress", "cloth", "কাপড়"],
+    bn: "হ্যাঁ, বিভিন্ন ডিজাইনের ঠাকুরের কাপড়/ড্রেস পাওয়া যায়।",
+    en: "Yes, idol dresses and various designs of cloth are available."
+  },
+  {
+    triggers: ["বাড়ির পুজো", "puja samagri", "dashkarma", "home puja", "home items"],
+    bn: "হ্যাঁ, বাড়ির পূজোর যাবতীয় দশকর্মা দ্রব্যাদি পেয়ে যাবেন।",
+    en: "Yes, all home puja dashkarma items are available."
+  },
+  {
+    triggers: ["ফর্দ", "list", "puja list", "requirement"],
+    bn: "হ্যাঁ, পূজার জন্য ফর্দ পাওয়া যায়।",
+    en: "Yes, you can get a puja list (ford) here."
+  },
+  {
+    triggers: ["পুরোহিত", "priest", "পুরোহিত পাব", "করব", "priest for puja"],
+    bn: "হ্যাঁ, যোগাযোগ করলে পুরোহিতও পাবেন।",
+    en: "Yes, we can help you find a priest."
+  },
+  {
+    triggers: ["গোপালের বসন", "gopal dress", "মুকুট", "গোপাল", "gopal accessories"],
+    bn: "হ্যাঁ, গোপালের বসন, মুকুট, সাজসজ্জা বিভিন্ন ডিজাইনে পাওয়া যায়। আমাদের ক্যাটালগে দেখুন।",
+    en: "Yes, Gopal's dresses, crown and accessories in various designs are available—see our catalog."
+  },
+  {
+    triggers: ["UPI", "অনলাইন পেমেন্ট", "digital payment"],
+    bn: "হ্যাঁ, অনলাইনে আমাদের UPI আছে।",
+    en: "Yes, we have UPI for online payment."
+  },
+  {
+    triggers: ["দাম", "price", "কত", "product price"],
+    bn: "ছবিতে পছন্দের জিনিসের দাম জানতে আমাদের সাথে যোগাযোগ করুন অথবা দোকানে আসুন।",
+    en: "To know the price of any item in the photos, please contact us or visit the shop."
+  },
+  {
+    triggers: ["ডেলিভারি", "delivery", "home delivery", "courier"],
+    bn: "ডেলিভারি ব্যবস্থা কবে হবে আপাতত বলা যাচ্ছে না।",
+    en: "Delivery facility may be available in future; not available at this time."
+  },
+  {
+    triggers: ["google map", "google", "maps", "location"],
+    bn: "গুগল ম্যাপে আমাদের লোকেশন দেওয়া আছে।",
+    en: "We are present on Google Maps."
+  },
+  {
+    triggers: ["নতুন", "নতুন পণ্য", "new product", "update", "catalogue", "ক্যাটালগ"],
+    bn: "নতুন পণ্য এলে সেটি ক্যাটালগে আপনি দেখতে পাবেন।",
+    en: "When new products arrive, you can see them on our catalog."
+  },
+  {
+    triggers: ["রিটার্ন", "রিফান্ড", "প্রডাক্ট রিটার্ন", "return", "refund"],
+    bn: "প্রোটাক্ট রিটার্ন সম্পর্কিত প্রশ্নের উত্তর দেওয়া সম্ভব হচ্ছে না।",
+    en: "We can't provide returns/refund policy at this time."
+  },
+  {
+    triggers: ["whatsapp ছবি", "ছবি পাঠান", "image", "photo", "send picture"],
+    bn: "হ্যাঁ, WhatsApp-এ ছবি পাঠাতে বললে পাঠানো যাবে।",
+    en: "Yes, we can send pictures via WhatsApp if you request."
+  },
+];
+
+function toggleLang(){
+  lang = (lang=='bn')?'en':'bn';
+  document.getElementById('langBtnLab').textContent = (lang=='bn')?'EN':'BN';
+  userMsg('', true);
+  showSuggestions();
+}
+function userMsg(txt, isWelcome=false){
+  if(isWelcome){
+    msgBox.innerHTML = '';
+    showMsg({text: (lang=='bn')? '👋 স্বাগতম! স্বস্তীপালী দশকর্মা ভান্ডার চ্যাট বটে আপনার প্রয়োজনে প্রশ্ন করুন বা সাজেশন বাটন টিপুন।' : "👋 Welcome! This is Swastipally Dashakarma Bhandar Chatbot. Type your question or use suggestions below.", side: 'bot'});
+    showSuggestions();
+    return;
+  }
+  if(txt.trim()==='') return;
+  showMsg({text:txt,side:'user'});
+  getBotReply(txt);
+  document.getElementById('userInput').value='';
+}
+function showMsg({text, side='bot'}){
+  let wrap = document.createElement('div');
+  wrap.className = 'msg-bubble ' + ((side==='bot')?'msg-bot':'msg-user');
+  let bbl = document.createElement('div');
+  bbl.className = 'bubble-inner bubble-anim ' + (side==='user'?'bubble-user':'bubble-bot');
+  bbl.textContent = text;
+  wrap.appendChild(bbl);
+  msgBox.appendChild(wrap);
+  msgBox.scrollTop = msgBox.scrollHeight+33;
+}
+
+function showSuggestions(){
+  const sugDiv = document.getElementById('cbSuggestions');
+  sugDiv.innerHTML='';
+  suggestions[lang].forEach(s=>{
+    let btn = document.createElement('button');
+    btn.className = 'cb-sugbtn';
+    btn.textContent = s;
+    btn.onclick = ()=>{sendMsg(s)};
+    sugDiv.appendChild(btn);
+  });
+}
+
+function sendMsg(prefill){
+  let val = prefill || document.getElementById('userInput').value;
+  if(val.trim()=='') return;
+  userMsg(val);
+}
+
+// FAQ–trigger matching; closest match
+function getBotReply(q){
+  document.getElementById('cbTyping').style.display='flex';
+  setTimeout(()=>{
+    document.getElementById('cbTyping').style.display='none';
+    let qLower = q.toLowerCase();
+    let found = FAQ.find(f=>f.triggers.some(t=>qLower.includes(t)));
+    if(found){
+      showMsg({text: found[lang], side:'bot'});
+    }else{
+      showMsg({text:(lang=='bn')?"দুঃখিত, উত্তর নেই! অন্য ভাবে করুন বা কল/হোয়াটসঅ্যাপ করুন।":"Sorry, I don't know that yet. Please rephrase or contact us.", side:'bot'});
+    }
+  }, 800+Math.random()*400);
+}
+
+// API KEY option (OpenAI future proof)
+function showApiInput(){
+  let wi=document.getElementById('apiKeyWrapper');
+  if(wi.style.display=='none'||wi.style.display=='') wi.style.display='block';
+  else wi.style.display='none';
+}
+document.getElementById('aiApiKey').onchange = function(){
+  if(window.localStorage) localStorage.cbOpenApiKey = this.value.trim();
+}
+
+userMsg('',true);
+</script>
+</body>
+</html>
