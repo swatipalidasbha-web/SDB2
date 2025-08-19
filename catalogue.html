@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<title>Shop Catalogue</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+body{background:#f8fbfe; font-family:'Segoe UI','Noto Sans Bengali',sans-serif;}
+.top-row{display:flex;justify-content:space-between;align-items:center;max-width:430px;margin:27px auto 0 auto;}
+.title{font-size:1.25em;font-weight:800;color:#2259c8;}
+.lang-toggle{padding:4px 19px 4px 17px;border-radius:13px;border:none;background:#e8f0ff;color:#16479b;font-size:1.04em;font-weight:700;cursor:pointer;box-shadow:0 1.5px 7px #b8d9f917;}
+.fest-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;max-width:430px;margin:18px auto;}
+.fest-btn{padding:10px 18px;background:#e9edfa;color:#215ad2;border:none;border-radius:12px;font-weight:700;cursor:pointer;font-size:1em;}
+.fest-btn.active{background:#225bef;color:#fff;}
+.sec-row{display:flex;gap:7px;margin:0 0 11px 0;justify-content:center;}
+.sec-btn{padding:7px 14px;background:#f4f6fb;color:#274faa;border:none;border-radius:10px;font-weight:700;cursor:pointer;font-size:.97em;}
+.sec-btn.active{background:#93b6f1;color:#fff;}
+.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:17px;max-width:415px;margin:0 auto 24px auto;min-height:277px;}
+.card{background:#fff;border-radius:12px;box-shadow:0 2px 10px #ddeaff38;padding:8px 2px 13px 2px;display:flex;flex-direction:column;align-items:center;animation:fadeUp .54s;}
+@keyframes fadeUp{0%{opacity:0;transform:translateY(35px);}100%{opacity:1;transform:none;}}
+.card img{width:99%;max-width:140px;height:98px;object-fit:cover;border-radius:10px;margin-top:4px;cursor:pointer;box-shadow:0 1.2px 5px #f0fafd19;}
+.card-title{font-size:.98em;font-weight:700;text-align:center;margin:5px 0 5px 0;color:#1243b1;}
+.like-btn{border:none;background:#f9f7fa;font-size:1.18em;padding:8px 26px 7px 26px;border-radius:10px;margin-top:6px;color:#e84e7f;cursor:pointer;box-shadow:0 1.5px 6px #efd6e52a;font-weight:bold;transition:.13s;}
+.like-btn.liked{background:#f6dfff;color:#b80a40;}
+.whatsapp-share-btn{display:block;margin:10px auto 21px auto;background:#25d366;color:#fff;font-size:1.04em;border:none;padding:13px 34px 13px 34px;border-radius:18px;font-weight:800;box-shadow:0 2px 18px #b3fbdc1d;cursor:pointer;letter-spacing:.01em;}
+.more-btn{margin:19px auto 11px auto;display:block;background:#ddeaf9;font-size:.98em;padding:8px 38px;border-radius:11px;border:none;color:#2060b4;font-weight:800;cursor:pointer;}
+/* --- Modal begins --- */
+#modalBg{position:fixed;inset:0;z-index:120;background:rgba(36,52,103,0.23);display:none;align-items:center;justify-content:center;}
+#modalBg.active{display:flex;}
+.modal-inner{background:rgba(252,253,255,.99);border-radius:16px;box-shadow:0 24px 90px #7db1e955;padding:23px 12px 22px 12px;max-width:99vw;max-height:98vh;display:flex;flex-direction:column;align-items:center;gap:13px;animation:modalPop .65s cubic-bezier(.37,2.1,.47,1.02);}
+@keyframes modalPop{0%{opacity:0;transform:scale(.80) translateY(55px);}54%{transform:scale(1.12) translateY(-16px);}100%{opacity:1;transform:none;}}
+.modal-imgbox{position:relative;display:flex;align-items:center;gap:0;}
+.modal-img{max-width:74vw;max-height:61vh;border-radius:21px;box-shadow:0 6px 30px #aac7f139;animation:imgIn .50s;}
+@keyframes imgIn{from{opacity:0;transform:scale(1.16);}to{opacity:1;transform:scale(1);}}
+.modal-arrow{background:rgba(237,245,253,1);border:none;color:#2967cb;font-size:2.3em;font-weight:600;border-radius:11px;cursor:pointer;padding:8px 24px;transition:.14s;position:relative;z-index:2;box-shadow:0 2.5px 10px #b7d5ff38;}
+.modal-arrow:active{background:#dbe7fb;}
+.modal-arrow[disabled]{opacity:.32;cursor:not-allowed;}
+.modal-title{font-size:1.12em;font-weight:700;color:#2151c1;margin:7px 0 5px 0;text-align:center;}
+.modal-like-btn{border:none;background:linear-gradient(90deg,#e7effe 60%,#ffe4ff 100%);color:#e64264;font-size:1.14em;font-weight:800;border-radius:13px;padding:10px 50px;margin-top:6px;box-shadow:0 2px 12px #e8eaff3c;cursor:pointer;transition:background .14s,color .15s;}
+.modal-like-btn.liked{background:linear-gradient(87deg,#ffd4ef 75%,#e7eaff 100%);color:#ef246e;}
+.modal-close-btn{background:#f3f5fe;border:none;color:#d91049;font-size:1.11em;padding:8px 31px;font-weight:800;border-radius:9px;margin-top:6px;cursor:pointer;}
+@media (max-width:480px){
+  .gallery{max-width:99vw;}
+  .modal-img{max-width:98vw;}
+  .modal-inner{padding:10px 0;}
+  .modal-close-btn{padding:8px 17px;font-size:.9em;}
+  .modal-title{font-size:.95em;}
+}
+</style>
+</head>
+<body>
+<div class="top-row">
+  <span class="title" id="pageTitle">Shop Catalogue</span>
+  <button class="lang-toggle" onclick="toggleLang()" id="langBtn">EN</button>
+</div>
+<div class="fest-row" id="festRow"></div>
+<div class="sec-row" id="secRow"></div>
+<div class="gallery" id="gallery"></div>
+<button class="more-btn" style="display:none" onclick="showMore()" id="moreBtn">আরও দেখুন</button>
+<button class="whatsapp-share-btn" onclick="shareWhatsApp()" id="waBtn">WhatsApp-এ পাঠান</button>
+<!-- Modal -->
+<div id="modalBg">
+  <div class="modal-inner" id="modalInner">
+    <div class="modal-imgbox">
+      <button class="modal-arrow" id="modalPrevBtn" onclick="modalPrev()" title="আগের" tabindex="-1">&#8592;</button>
+      <img src="" id="modalImg" class="modal-img" alt="">
+      <button class="modal-arrow" id="modalNextBtn" onclick="modalNext()" title="পরের" tabindex="-1">&#8594;</button>
+    </div>
+    <div class="modal-title" id="modalModalTitle"></div>
+    <button class="modal-like-btn" id="modalLikeBtn" onclick="modalToggleLike()">♡ Like</button>
+    <button class="modal-close-btn" onclick="closeModal()">✕ বন্ধ করুন</button>
+  </div>
+</div>
+<script>
+// --------- Data structure & state like previous (20 img/section, bn/en) --------
+const FESTIVALS = [
+  {
+    id:"durga", bn:"দুর্গাপূজা", en:"Durga Puja", sections:[
+      { key:"mala", bn:"মালা", en:"Garland", imgs:Array.from({length:20},(_,i)=>({src:`images/durga_mala${i+1}.jpg`,bn:`দুর্গা মালা ${i+1}`,en:`Durga Garland ${i+1}`})) },
+      { key:"saj", bn:"সাজ", en:"Decor", imgs:Array.from({length:20},(_,i)=>({src:`images/durga_saj${i+1}.jpg`,bn:`দুর্গা সাজ ${i+1}`,en:`Durga Decor ${i+1}`})) },
+      { key:"onno", bn:"অন্যান্য", en:"Others", imgs:Array.from({length:20},(_,i)=>({src:`images/durga_onno${i+1}.jpg`,bn:`দুর্গা অন্যান্য ${i+1}`,en:`Durga Other ${i+1}`})) }
+    ]
+  },
+  {
+    id:"kali", bn:"কালিপূজা", en:"Kali Puja", sections:[
+      { key:"mala", bn:"মালা", en:"Garland", imgs:Array.from({length:20},(_,i)=>({src:`images/kali_mala${i+1}.jpg`,bn:`কালী মালা ${i+1}`,en:`Kali Garland ${i+1}`})) },
+      { key:"saj", bn:"সাজ", en:"Decor", imgs:Array.from({length:20},(_,i)=>({src:`images/kali_saj${i+1}.jpg`,bn:`কালী সাজ ${i+1}`,en:`Kali Decor ${i+1}`})) },
+      { key:"onno", bn:"অন্যান্য", en:"Others", imgs:Array.from({length:20},(_,i)=>({src:`images/kali_onno${i+1}.jpg`,bn:`কালী অন্যান্য ${i+1}`,en:`Kali Other ${i+1}`})) }
+    ]
+  },
+  {
+    id:"saraswati", bn:"সরস্বতী পূজা", en:"Saraswati Puja", sections:[
+      { key:"mala", bn:"মালা", en:"Garland", imgs:Array.from({length:20},(_,i)=>({src:`images/saraswati_mala${i+1}.jpg`,bn:`সরস্বতী মালা ${i+1}`,en:`Saraswati Garland ${i+1}`})) },
+      { key:"saj", bn:"সাজ", en:"Decor", imgs:Array.from({length:20},(_,i)=>({src:`images/saraswati_saj${i+1}.jpg`,bn:`সরস্বতী সাজ ${i+1}`,en:`Saraswati Decor ${i+1}`})) },
+      { key:"onno", bn:"অন্যান্য", en:"Others", imgs:Array.from({length:20},(_,i)=>({src:`images/saraswati_onno${i+1}.jpg`,bn:`সরস্বতী অন্যান্য ${i+1}`,en:`Saraswati Other ${i+1}`})) }
+    ]
+  },
+  {
+    id:"laxmi", bn:"লক্ষ্মী পূজা", en:"Laxmi Puja", sections:[
+      { key:"mala", bn:"মালা", en:"Garland", imgs:Array.from({length:20},(_,i)=>({src:`images/laxmi_mala${i+1}.jpg`,bn:`লক্ষ্মী মালা ${i+1}`,en:`Laxmi Garland ${i+1}`})) },
+      { key:"saj", bn:"সাজ", en:"Decor", imgs:Array.from({length:20},(_,i)=>({src:`images/laxmi_saj${i+1}.jpg`,bn:`লক্ষ্মী সাজ ${i+1}`,en:`Laxmi Decor ${i+1}`})) },
+      { key:"onno", bn:"অন্যান্য", en:"Others", imgs:Array.from({length:20},(_,i)=>({src:`images/laxmi_onno${i+1}.jpg`,bn:`লক্ষ্মী অন্যান্য ${i+1}`,en:`Laxmi Other ${i+1}`})) }
+    ]
+  },
+  {
+    id:"janma", bn:"জন্মাষ্টমী", en:"Janmastami", sections:[
+      { key:"boson", bn:"বসন", en:"Dress", imgs:Array.from({length:20},(_,i)=>({src:`images/janma_boson${i+1}.jpg`,bn:`জন্মাষ্টমী বসন ${i+1}`,en:`Janmastami Dress ${i+1}`})) },
+      { key:"mukut", bn:"মুকুট", en:"Crown", imgs:Array.from({length:20},(_,i)=>({src:`images/janma_mukut${i+1}.jpg`,bn:`জন্মাষ্টমী মুকুট ${i+1}`,en:`Janmastami Crown ${i+1}`})) },
+      { key:"onno", bn:"অন্যান্য", en:"Others", imgs:Array.from({length:20},(_,i)=>({src:`images/janma_onno${i+1}.jpg`,bn:`জন্মাষ্টমী অন্যান্য ${i+1}`,en:`Janmastami Other ${i+1}`})) }
+    ]
+  }
+];
+let lang = 'bn';
+let festIdx = 0, secIdx = 0, showStart = 0, showChunk = 5;
+let liked = [];
+
+// --------- Rendering + Gallery ---------
+function renderFests(){
+  let fr = document.getElementById('festRow');
+  fr.innerHTML = '';
+  FESTIVALS.forEach((f,i)=>{
+    let btn = document.createElement('button');
+    btn.className = 'fest-btn'+(i==festIdx?' active':'');
+    btn.textContent = f[lang];
+    btn.onclick = ()=>{festIdx=i;secIdx=0;showStart=0;renderSections();};
+    fr.appendChild(btn);
+  });
+}
+function renderSections(){
+  let sr = document.getElementById('secRow');
+  sr.innerHTML = '';
+  let fest = FESTIVALS[festIdx];
+  fest.sections.forEach((s,j)=>{
+    let btn = document.createElement('button');
+    btn.className = 'sec-btn'+(j==secIdx?' active':'');
+    btn.textContent = s[lang];
+    btn.onclick = ()=>{secIdx=j;showStart=0;renderGallery();};
+    sr.appendChild(btn);
+  });
+  renderGallery();
+}
+function renderGallery(){
+  let fest=FESTIVALS[festIdx], sec=fest.sections[secIdx];
+  let g=document.getElementById('gallery');g.innerHTML='';
+  let slice = sec.imgs.slice(showStart,showStart+showChunk);
+  slice.forEach((imgO,idx)=>{
+    let absIdx = showStart+idx;
+    let k=`${festIdx}_${secIdx}_${absIdx}`;
+    g.innerHTML += `
+      <div class="card" style="animation-delay:${idx*55}ms;">
+        <img src="${imgO.src}" alt="${imgO[lang]}" onclick="showModal(${festIdx},${secIdx},${absIdx})">
+        <div class="card-title">${imgO[lang]}</div>
+        <button class="like-btn${liked.includes(k)?' liked':''}" onclick="toggleLike(event,'${k}')">${liked.includes(k)?'❤':'♡'} Like</button>
+      </div>
+    `;
+  });
+  // More button logic
+  let moreBtn = document.getElementById('moreBtn');
+  if(showStart+showChunk < sec.imgs.length){
+    moreBtn.style.display='block';
+  } else {
+    moreBtn.style.display='none';
+  }
+}
+function showMore(){ showStart += showChunk; renderGallery(); }
+function toggleLike(e,k){
+  e.stopPropagation();
+  let i = liked.indexOf(k);
+  if(i==-1) liked.push(k); else liked.splice(i,1);
+  renderGallery();
+}
+function toggleLang(){
+  lang = (lang=='bn')?'en':'bn';
+  document.getElementById('langBtn').textContent = (lang=='bn')?'EN':'BN';
+  document.getElementById('pageTitle').textContent = (lang=='bn')?'শপ ক্যাটালগ':'Shop Catalogue';
+  renderFests();
+  renderSections();
+}
+
+// --------- Modal Logic (Masterpiece) ---------
+let modalFi=0, modalSi=0, modalIdx=0;
+function showModal(fi,si,idx){
+  modalFi=fi; modalSi=si; modalIdx=idx;
+  let fest = FESTIVALS[fi], sec = fest.sections[si], imgO = sec.imgs[idx];
+  document.getElementById('modalImg').src = imgO.src;
+  document.getElementById('modalModalTitle').textContent = imgO[lang];
+  // Like button state
+  let k = `${fi}_${si}_${idx}`;
+  let btn=document.getElementById('modalLikeBtn');
+  if(liked.includes(k)){btn.className='modal-like-btn liked';btn.innerHTML='❤ Liked';}else{btn.className='modal-like-btn';btn.innerHTML='♡ Like';}
+  document.getElementById('modalPrevBtn').disabled = idx==0;
+  document.getElementById('modalNextBtn').disabled = idx==FESTIVALS[fi].sections[si].imgs.length-1;
+  document.getElementById('modalBg').classList.add('active');
+  // animate masterpiece
+  document.getElementById('modalInner').style.animation='modalPop .62s cubic-bezier(.37,2.1,.47,1.02)';
+  setTimeout(()=>{document.getElementById('modalInner').style.animation='';},660);
+}
+function closeModal(){document.getElementById('modalBg').classList.remove('active');}
+function modalToggleLike(){
+  let k = `${modalFi}_${modalSi}_${modalIdx}`;
+  let i = liked.indexOf(k);
+  if(i==-1) liked.push(k); else liked.splice(i,1);
+  showModal(modalFi,modalSi,modalIdx); 
+  renderGallery();
+}
+function modalPrev(){if(modalIdx>0) showModal(modalFi,modalSi,modalIdx-1);}
+function modalNext(){let imgs=FESTIVALS[modalFi].sections[modalSi].imgs;if(modalIdx<imgs.length-1)showModal(modalFi,modalSi,modalIdx+1);}
+
+// --------- WhatsApp Like List ---------
+function shareWhatsApp(){
+  if(!liked.length){
+    alert(lang=='bn'?'কিছুই পছন্দ করেননি!':'No liked items!');
+    return;
+  }
+  let txt = lang=='bn'?'আমি এইগুলো পছন্দ করেছি:\n':'I liked these:\n';
+  for(let k of liked){
+    let [fi,si,imgi]=k.split('_');
+    let fest=FESTIVALS[fi],sec=fest.sections[si],imgO=sec.imgs[imgi];
+    txt += `${fest[lang]} - ${sec[lang]} - ${imgO[lang]}\n`;
+  }
+  let num = '9547486999'; // India code
+  let url = 'https://wa.me/91'+num+'?text='+encodeURIComponent(txt);
+  window.open(url,'_blank');
+}
+
+// --------- Initial Render ---------
+renderFests();
+renderSections();
+</script>
+</body>
+</html>
