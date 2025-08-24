@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<title>শপ ক্যাটালগ</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+body{margin:0;padding-bottom:90px;font-family:'Noto Sans Bengali','SolaimanLipi',sans-serif;background:#f8fafd;}
+.header{background:linear-gradient(96deg,#daf0ff 63%,#f3fcff 100%);padding:10px 0 6px 0;}
+.header-title{font-size:1.12em;font-weight:900;color:#146bd1;text-align:center;margin-bottom:4px;}
+.catrow{display:flex;gap:11px;align-items:center;overflow-x:auto;max-width:99vw;margin:0 auto 6px auto;padding:8px 4vw 2px 4vw;}
+.cat-tile{min-width:86px;max-width:120px;background:#fff;color:#197bb0;font-size:.97em;font-weight:900;border:none;border-radius:13px;padding:9px 7px;cursor:pointer;box-shadow:0 2px 7px #dadada11;transition:.17s;white-space:nowrap;}
+.cat-tile.active{background:linear-gradient(94deg,#0d91e6 73%,#25ddb9 118%);color:#fff;box-shadow:0 4px 14px #32a1d820;transform:scale(1.08);}
+.subbar{display:flex;gap:7px;justify-content:center;align-items:center;margin:5px 0 0 1vw;overflow-x:auto;}
+.sub-btn{background:#eaf3ff;color:#1561a7;font-size:.95em;padding:7px 17px;border-radius:9px;border:none;font-weight:800;cursor:pointer;white-space:nowrap;transition:.17s;}
+.sub-btn.active{background:linear-gradient(94deg,#1796e2 82%,#18c781 98%);color:#fff;box-shadow:0 2px 8px #86fae9bb;transform:scale(1.03);}
+.video-bar{margin:7px auto 7px auto;text-align:center;}
+.video-btn-top{
+  background:linear-gradient(94deg,#f9fbce 30%,#e2eafd 84%);
+  color:#e03b83;
+  font-size:1.05em;font-weight:900;
+  border:none;
+  padding:11px 35px 11px 36px;
+  border-radius:17px;
+  box-shadow:0 1.7px 12px #f6d3ff56;
+  letter-spacing:.01em;
+  transition:.16s;
+  margin-bottom:2px;
+  margin-top:4px;
+  outline:none;
+  cursor:pointer;
+}
+.video-btn-top[disabled]{opacity:.60;pointer-events:none;}
+.video-btn-top:active{
+  background:#fff9e6;
+  color:#b31f5b;
+}
+.marq-notice-bar{overflow:hidden;white-space:nowrap;background:linear-gradient(91deg,#e0f7ef 62%,#fbeaea 101%);font-size:1.01em;font-weight:800;color:#187e64;padding:11px 0 9px 0;margin:0 0 6px 0;max-width:390px;width:97vw;border-radius:10px;box-shadow:0 1.4px 8px #54c7a320;margin-left:auto;margin-right:auto;position:relative;height:35px;}
+.marq-inner{display:inline-block;white-space:nowrap;position:relative;animation:slideRightToLeft 7s linear infinite;font-family:inherit;}
+@keyframes slideRightToLeft{0%{left:100vw;}100%{left:-110%;}}
+.imggrid-label{font-size:.98em;font-weight:700;color:#177dc3;margin:7px 0 5px 12px;}
+.grid-wrap{max-width:420px;width:99vw;margin:0 auto;}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 13px;}
+.card{background:#f2fff1;border-radius:12px;box-shadow:0 2.2px 12px #aae9fb14;padding:13px 4px 16px 4px;display:flex;flex-direction:column;align-items:center;position:relative;}
+.card.best-collection{background:linear-gradient(110deg,#fffacc 20%,#c5f0ea 62%,#ffe0fa 96%);box-shadow:0 3.5px 24px #faffc96c,0 0px 0 #fff0;outline:2.5px solid #b2ffdb47;outline-offset:1.5px;animation: shineBest 3.5s linear infinite alternate;}
+@keyframes shineBest{0%{background-position:18% 47%;}100%{background-position:81% 68%;}}
+.c-img{width:71px;height:71px;object-fit:cover;border-radius:7px;background:#f6faff;}
+.c-title{font-size:.97em;font-weight:900;margin:6px 0 6px 0;text-align:center;color:#175393;}
+.card-action-row{display:flex;gap:8px;margin-top:7px;}
+.like-btn{background:linear-gradient(94deg,#fff0e2 30%,#ffeaf9 81%);color:#eb2796;font-size:.94em;font-weight:900;border-radius:8px;padding:7px 18px 7px 18px;border:none;cursor:pointer;position:relative;transition:.13s;}
+.like-btn:active{background:linear-gradient(96deg,#edffe6 40%,#ffe5f4 111%);color:#168317;box-shadow:0 6px 18px #f7c9e646;letter-spacing:.03em;}
+.preview-btn{background:linear-gradient(89deg,#51eabe 30%,#19a3fa 105%);color:#fff;border:none;font-weight:900;border-radius:7px;padding:7px 19px 7px 19px;cursor:pointer;transition:.16s;}
+.preview-btn:hover,.preview-btn:focus{background:linear-gradient(92deg,#6cffde 40%,#28bafe 105%);color:#203951;box-shadow:0 2px 11px #7de7e45c;transform:scale(1.06);}
+.page-row{display:flex;gap:7px;align-items:center;justify-content:center;margin:10px 0 7px 0;}
+.page-btn{background:linear-gradient(95deg,#e8ffdf 23%,#d3eaff 121%);color:#1772c5;font-weight:900;border:none;border-radius:8px;box-shadow:0 1.7px 7px #d1fce870;transition:.15s;}
+.page-btn:active{background:linear-gradient(95deg,#fff5e2 4%,#d3eaff 121%);color:#128d34;box-shadow:0 5px 10px #acfad211;scale:1.06;}
+.p-label{font-weight:800;min-width:21px;text-align:center;color:#168db6;}
+#modalBg{position:fixed;inset:0;z-index:2200;background:rgba(36,52,103,0.12);display:none;align-items:center;justify-content:center;}
+.modal-inner{background:#fff;border-radius:12px;box-shadow:0 22px 42px #12cde251;padding:8px 2vw 10px 2vw;max-width:96vw;display:flex;flex-direction:column;align-items:center;}
+.modal-img{max-width:70vw;max-height:33vh;border-radius:9px;}
+.modal-title{font-size:.92em;font-weight:900;color:#1374ce;text-align:center;}
+.modal-like-btn{border:none;background:#e4f4f7;color:#d80e4e;font-size:.86em;font-weight:900;border-radius:7px;padding:4px 10px;margin-top:1px;cursor:pointer;}
+.modal-like-btn.liked{background:#fffbe6;color:#ef217a;}
+.modal-close-btn{background:#f2f7fc;border:none;color:#b52338;font-size:.89em;padding:5px 10px;font-weight:900;border-radius:8px;margin-top:3px;cursor:pointer;}
+.modal-back-btn{background:#f5fafc;border:none;color:#1464b2;font-size:.93em;padding:5px 13px;font-weight:900;border-radius:7px;cursor:pointer;margin-bottom:2px;}
+.rev-row-num{display:flex;gap:8px;align-items:center;justify-content:center;margin:7px 0 0 0;}
+.num-btn{font-size:1em;font-weight:800;border-radius:6px;background:#f6fafd;border:none;padding:2px 7px;cursor:pointer;}
+.num-btn.selected{background:linear-gradient(95deg,#dae4e9 24%,#91a5b7 88%);color:#2b3345;}
+.rev-label{font-size:.94em;font-weight:900;color:#0a5a8b;margin-right:5px;}
+.rev-thank{font-size:.91em;font-weight:800;margin-top:7px;color:#01a356;background:rgba(220,253,234,1);padding:4px 10px 4px 10px;border-radius:7px;}
+#likedBar{position:fixed;left:0;bottom:0;width:100vw;padding:10px 0 12px 0;background:linear-gradient(91deg,#f3fff6 55%,#c3fcfa 100%);display:flex;align-items:center;justify-content:space-between;z-index:2210;}
+.lb-btn{font-size:.94em;font-weight:900;background:#fff;color:#1c85b7;padding:8px 0 8px 0;margin:0 0 0 0;width:50vw;border:none;cursor:pointer;}
+.lb-btn.send{color:#268d16;border-left:2px solid #e8e8f6;}
+.lb-btn.list{color:#1371a6;}
+#waListBg{display:none;position:fixed;inset:0;z-index:2999;backdrop-filter:blur(2px);background:rgba(39,54,98,0.13);align-items:center;justify-content:center;}
+#walist-modal{background:#fff;border-radius:12px;box-shadow:0 7px 12px #13dbe8aa;padding:8px 2vw 9px 2vw;max-width:97vw;max-height:59vh;overflow:auto;display:flex;flex-direction:column;align-items:center;}
+#waListTitle{font-weight:900;color:#128db1;font-size:.98em;margin-bottom:2px;}
+#waLikedList{list-style:none;text-align:left;max-width:410px;padding:2px 2px 11px 0;}
+#waLikedList li{margin:8px 0 7px 0;display:flex;align-items:center;gap:8px;}
+.lbthumb{width:29px;height:29px;border-radius:6px;object-fit:cover;background:#f2f5f7;}
+.lbtit{font-size:.87em;font-weight:700;color:#14688d;}
+.lbrv{margin-left:auto;}
+.lb-rm{background:none;border:none;color:#e81345;font-size:.99em;font-weight:900;cursor:pointer;}
+#waSendBtn{background:linear-gradient(87deg,#12cfc1 88%,#22acff 98%);color:#fff;font-size:.91em;font-weight:900;border:none;border-radius:6px;padding:6px 15px;margin:7px 0 0 0;}
+#waCloseBtn{background:none;border:none;color:#dc105c;font-size:.93em;margin:7px 0 0 0;font-weight:800;cursor:pointer;}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-title">শপ ক্যাটালগ</div>
+</div>
+<div class="catrow" id="mainSectionList"></div>
+<div class="subbar" id="subBar" style="display:none"></div>
+<div class="video-bar" id="videoBar"></div>
+<div class="marq-notice-bar"><span class="marq-inner">পছন্দের তালিকায় যুক্ত করতে ছবিটিতে লাইক দিন</span></div>
+<div class="imggrid-label" id="imgGridLabel"></div>
+<div class="grid-wrap">
+  <div class="grid" id="gallery"></div>
+  <div class="page-row" id="pageRow" style="display:none;">
+    <button class="page-btn" onclick="pagePrev()" id="prevBtn">←</button>
+    <span class="p-label" id="pageLabel"></span>
+    <button class="page-btn" onclick="pageNext()" id="nextBtn">→</button>
+  </div>
+</div>
+<!-- Modal: Preview & Review -->
+<div id="modalBg">
+  <div class="modal-inner">
+    <button class="modal-back-btn" onclick="closeModal()">← ফিরে যান</button>
+    <img src="" id="modalImg" class="modal-img" alt="">
+    <div class="modal-title" id="modalModalTitle"></div>
+    <button class="modal-like-btn" id="modalLikeBtn" onclick="modalToggleLike()">♡ লাইক</button>
+    <div class="rev-row-num" id="modalNumRow">
+      <span class="rev-label" id="reviewLabel">রেটিং দিন:</span>
+      <button class="num-btn" data-v="1">১</button>
+      <button class="num-btn" data-v="2">২</button>
+      <button class="num-btn" data-v="3">৩</button>
+      <button class="num-btn" data-v="4">৪</button>
+      <button class="num-btn" data-v="5">৫</button>
+    </div>
+    <div id="reviewThanks" style="display:none;" class="rev-thank"></div>
+    <button class="modal-close-btn" onclick="closeModal()">✕ বন্ধ করুন</button>
+  </div>
+</div>
+<div id="likedBar">
+  <button class="lb-btn list" id="likedListBtn" onclick="showWaPreview()">পছন্দ তালিকা</button>
+  <button class="lb-btn send" id="waSendBtnBar" onclick="waSendList()">শেয়ার করুন</button>
+</div>
+<div id="waListBg">
+  <div id="walist-modal">
+    <div id="waListTitle"></div>
+    <ul id="waLikedList"></ul>
+    <button id="waSendBtn"></button>
+    <button id="waCloseBtn"></button>
+  </div>
+</div>
+<script>
+const YT_LINKS = {
+  "gopalsaj": "https://youtu.be/JXnW23ZFm74?si=WSV9ISOr63BThzPS"
+  // পরে অন্যগুলোকেও যোগ করতে পারবেন: "mala": "link"
+};
+const DATA=[
+  {key:"mala",name:"মালা",subs:[{name:"best"},{name:"all"}]},
+  {key:"chandmala",name:"চাঁদমালা",subs:[{name:"best"},{name:"all"}]},
+  {key:"prodip",name:"প্রদীপ",subs:[{name:"best"},{name:"all"}]},
+  {key:"saj",name:"সাজ",subs:[{name:"best"},{name:"all"}]},
+  {key:"kapor",name:"কাপড়",subs:[{name:"best"},{name:"all"}]},
+  {key:"gopalsaj",name:"গোপাল",subs:[{name:"boson"},{name:"mukut"}]},
+  {key:"durga",name:"দুর্গাপুজো",subs:[{name:"saj"},{name:"kapor"},{name:"all"}]},
+  {key:"kali",name:"কালিপুজো",subs:[{name:"saj"},{name:"kapor"},{name:"all"}]},
+  {key:"saraswati",name:"সরস্বতী",subs:[{name:"saj"},{name:"kapor"},{name:"prodip"},{name:"all"}]},
+  {key:"laxmi",name:"লক্ষ্মী",subs:[{name:"saj"},{name:"kapor"},{name:"prodip"},{name:"all"}]},
+  {key:"onno",name:"অন্যান্য",subs:[{name:"all"}]}
+];
+const IMAGE_ROOT="images/";
+let perPage=6,currMainIdx=0,currSubIdx=0,page=0,liked=[],reviews={},modalImgs=[],currModalKey="";
+function imgName(secObj,subObj,num){return `${secObj.name}${subObj.name}${num}`;}
+function renderMainSections(){
+  let mainlist=document.getElementById('mainSectionList');mainlist.innerHTML='';
+  DATA.forEach((sec,idx)=>{
+    let btn=document.createElement('button');
+    btn.className='cat-tile'+(currMainIdx===idx?' active':'');
+    btn.textContent=sec.name;
+    btn.onclick=()=>{currMainIdx=idx;currSubIdx=0;page=0;renderSubbar();renderActiveTile(idx);}
+    mainlist.appendChild(btn);
+  });
+  renderActiveTile(currMainIdx);renderSubbar();
+}
+function renderActiveTile(idx){
+  let tiles=document.querySelectorAll('.cat-tile');
+  tiles.forEach((t,i)=>{t.classList.toggle('active',i===idx);});
+  if(tiles[idx]){tiles[idx].scrollIntoView({behavior:"smooth",inline:"center"});}
+}
+function renderSubbar(){
+  let sec=DATA[currMainIdx],sb=document.getElementById('subBar');sb.innerHTML='';
+  if(sec.subs.length>1||sec.subs[0].name!=="all"){
+    sb.style.display='flex';
+    sec.subs.forEach((s,i)=>{
+      let btn=document.createElement('button');
+      btn.className='sub-btn'+(i===currSubIdx?' active':'');
+      btn.textContent=s.name;
+      btn.onclick=()=>{currSubIdx=i;page=0;renderGallery();renderSubbar();};
+      sb.appendChild(btn);
+    });
+  }
+  else sb.style.display='none';
+  renderGallery();
+}
+function renderGallery(){
+  // ভিডিও বাটন section
+  let sec=DATA[currMainIdx];
+  let vbar=document.getElementById('videoBar');
+  let vlink = YT_LINKS[sec.key]||"";
+  vbar.innerHTML=`
+    <button class="video-btn-top" onclick="${vlink ? `window.open('${vlink}','_blank')` : ''}" ${vlink?'':'disabled'}>🎥 ভিডিও</button>
+  `;
+  let g=document.getElementById('gallery');
+  let sub=sec.subs[currSubIdx];
+  let sectionKey=sec.key;
+  let isBest=sub.name==="best";
+  let images=[];
+  // banner section
+  if(sectionKey==="banner"){
+    for(let i=1;i<=10;i++){
+      images.push({
+        src:`${IMAGE_ROOT}ব্যানার${i}.jpg`,
+        title:`ব্যানার${i}`,
+        cardClass:"card"
+      });
+    }
+  }else{
+    for(let i=1;i<=10;i++){
+      images.push({
+        src:`${IMAGE_ROOT}${sec.name}${sub.name}${i}.jpg`,
+        title:imgName(sec,sub,i),
+        cardClass:isBest?"card best-collection":"card"
+      });
+    }
+  }
+  modalImgs=images;
+  let totalPages=Math.ceil(images.length/perPage);
+  let start=page*perPage,arr=images.slice(start,start+perPage);
+  g.innerHTML='';
+  document.getElementById('imgGridLabel').textContent="ছবি ট্যাপ করুন, প্রিভিউ দেখুন, রেট দিন।";
+  arr.forEach((imgO,idx)=>{
+    let absIdx=start+idx;
+    let lk=likeKey(sec.name,sub.name,absIdx);
+    g.innerHTML+=`
+      <div class="${imgO.cardClass}" style="position:relative;">
+        <img src="${imgO.src}" class="c-img">
+        <div class="c-title">${imgO.title}</div>
+        <div class="card-action-row">
+          <button class="like-btn${liked.includes(lk)?' liked':''}" onclick="toggleLike(event,'${sec.name}','${sub.name}',${absIdx})">${liked.includes(lk)?'☺️ পছন্দ হয়েছে!':'লাইক'}</button>
+          <button class="preview-btn" onclick="showModal('${sec.name}','${sub.name}',${absIdx})">প্রিভিউ</button>
+        </div>
+      </div>
+    `;
+  });
+  let pr=document.getElementById('pageRow');
+  pr.style.display=totalPages>1?'flex':'none';
+  document.getElementById('pageLabel').textContent=`${page+1}/${totalPages}`;
+  document.getElementById('prevBtn').disabled=page===0;
+  document.getElementById('nextBtn').disabled=(page+1)>=totalPages;
+}
+function likeKey(sec,sub,idx){return `${sec}_${sub}_${idx}`;}
+function toggleLike(e,sec,sub,idx){
+  e.stopPropagation();
+  let k=likeKey(sec,sub,idx);
+  let i=liked.indexOf(k);
+  if(i===-1) liked.push(k); else liked.splice(i,1);
+  renderGallery();
+}
+function pagePrev(){if(page>0){page--;renderGallery();}}
+function pageNext(){
+  let sec=DATA[currMainIdx],sub=sec.subs[currSubIdx],totalImages=10;
+  let totalPages=Math.ceil(totalImages/perPage);
+  if(page+1<totalPages){page++;renderGallery();}
+}
+function showModal(sec,sub,idx){
+  let images=modalImgs;let imgObj=images[idx%images.length];
+  let lk=likeKey(sec,sub,idx),lvd=liked.includes(lk);currModalKey=lk;
+  document.getElementById('modalImg').src=imgObj.src;
+  document.getElementById('modalModalTitle').textContent=imgObj.title;
+  let lbtn=document.getElementById('modalLikeBtn');
+  lbtn.className='modal-like-btn'+(lvd?' liked':'');
+  lbtn.innerHTML=lvd?'❤️':'♡';
+  lbtn.onclick=function(){toggleLike({stopPropagation:()=>{}},sec,sub,idx);showModal(sec,sub,idx);}
+  let nums=document.querySelectorAll('.num-btn');
+  let saved=Number(reviews[lk])||0;
+  nums.forEach(nb=>{
+    nb.classList.toggle('selected',Number(nb.dataset.v)===saved);
+    nb.onclick=function(){
+      reviews[lk]=Number(nb.dataset.v);
+      nums.forEach(btn=>btn.classList.toggle('selected',btn===nb));
+      let thx=document.getElementById('reviewThanks');
+      thx.textContent="রিভিউ করার জন্য ধন্যবাদ!"; thx.style.display='block';
+      setTimeout(()=>{thx.style.display='none';},1150);
+    };
+  });
+  document.getElementById('modalBg').style.display='flex';
+}
+function closeModal(){document.getElementById('modalBg').style.display='none';currModalKey="";}
+function waSendList(){
+  if(!liked.length){alert("কিছুই পছন্দ করেননি!");return;}
+  let arr=liked.map(k=>{
+    let [sec,sub,idx]=k.split('_');
+    return `${sec}${sub}${parseInt(idx)+1}`;
+  });
+  let ratings=liked.map(k=>`(${reviews[k]??'N/A'})`).join(', ');
+  let msg='আমি পছন্দ করেছি: '+arr.join(', ')+'\nরেটিং: '+ratings;
+  let num='9547486999';
+  let url='https://wa.me/91'+num+'?text='+encodeURIComponent(msg);
+  window.open(url,'_blank');
+}
+function showWaPreview(){
+  let arr=liked.map((k,li)=>{
+    let [sec,sub,idx]=k.split('_');
+    let nm=`${sec}${sub}${parseInt(idx)+1}`,path=`${IMAGE_ROOT}${nm}.jpg`,star=reviews[k]||'';
+    return {k,path,title:nm,star};
+  });
+  let modal=document.getElementById('waListBg'),list=document.getElementById('waLikedList');
+  document.getElementById('waListTitle').textContent="পছন্দ তালিকা";
+  if(!arr.length) list.innerHTML=`<li style="color:#dc2e57;font-weight:600;">কিছু পছন্দ করেননি!</li>`;
+  else list.innerHTML=arr.map(x=>`<li><img class="lbthumb" src="${x.path}"><span class="lbtit">${x.title}</span><span class="lbrv">${x.star?('রেটিং:'+x.star):""}</span><button class="lb-rm" onclick="lbDel('${x.k}')">✕</button></li>`).join('');
+  document.getElementById('waSendBtn').textContent="হোয়াটসঅ্যাপে পাঠান";
+  document.getElementById('waCloseBtn').textContent="বন্ধ করুন";
+  document.getElementById('waSendBtn').onclick=waSendList;
+  document.getElementById('waCloseBtn').onclick=()=>{modal.style.display='none';};
+  modal.style.display='flex';
+}
+function lbDel(k){liked=liked.filter(x=>x!==k);showWaPreview();}
+renderMainSections();
+</script>
+</body>
+</html>
