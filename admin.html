@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Admin Login</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    max-width: 320px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #f7f7f7;
+    border-radius: 8px;
+    text-align: center;
+  }
+  input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 15px 0;
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+  button {
+    padding: 10px 15px;
+    font-size: 16px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  button:hover {
+    background: #0056b3;
+  }
+</style>
+</head>
+<body>
+
+<h2>Admin Login</h2>
+<input type="password" id="adminPass" placeholder="Enter password" />
+<button onclick="checkPassword()">Login</button>
+
+<script>
+function checkPassword() {
+  const pass = document.getElementById('adminPass').value;
+  if (pass === 'swastipally123') {  // Change password as needed
+    window.location.href = 'bill.html';
+  } else {
+    alert('Incorrect password');
+  }
+}
+</script>
+
+</body>
+</html>
