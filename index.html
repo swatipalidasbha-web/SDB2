@@ -832,7 +832,7 @@ setInterval(updateTimer, 1000);
     // --- Countdown Timer ---
     function pad0(x){return x<10?('0'+x):x;}
     function updateTimer(){
-      let now=new Date(),ev=new Date(2025,7,16,0,0,0);
+      let now=new Date(),ev=new Date(2025,10,20,0,0,0);
       let diff=ev-now,
         d=Math.max(0,Math.floor(diff/(1000*60*60*24))),
         h=Math.max(0,Math.floor((diff/(1000*60*60))%24)),
